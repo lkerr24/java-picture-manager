@@ -10,10 +10,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.io.File;
+import java.util.Set;
+import java.util.HashSet;
 
 public class NavigatePanel extends JScrollPane {
     private JTree tree;
     private DefaultMutableTreeNode topNode;
+    private Set<String> loadedNodes=new HashSet<String>();
 
     public NavigatePanel() {
         topNode=new DefaultMutableTreeNode(Utils.resource                .getString("workspace"));
@@ -37,24 +40,28 @@ public class NavigatePanel extends JScrollPane {
                         mainPanel.reset();
                         File[] files = file.listFiles(Utils.fileTreeFilter);
                         if (files != null) {
-                            for (File f : files) {
-                                if (f.isDirectory()&&f.getName().equalsIgnoreCase("thumbnails"))
-                                {
-                                    continue;
+
+                            if (!loadedNodes.contains(path))
+                            {
+                                for (File f : files) {
+                                    if (f.isDirectory()&&f.getName().equalsIgnoreCase("thumbnails"))
+                                    {
+                                        continue;
+                                    }
+                                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
+                                                f.getName());
+                                        node.add(childNode);
                                 }
-                                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
-                                        f.getName());
-                                node.add(childNode);
-                                mainPanel.addPicture(new Picture(f));
-                                mainPanel.updateUI();
+                                ((DefaultTreeModel) tree.getModel())
+                                        .nodeStructureChanged(node);
+                                tree.expandPath(e.getPath());
                             }
-                            ((DefaultTreeModel) tree.getModel())
-                                    .nodeStructureChanged(node);
-                            tree.expandPath(e.getPath());
+                            mainPanel.viewPictures(files);                            
                         }
                     } else {
                         ((MainPanel)UIManager.getComponent(UIManager.MAINPANEL)).viewPicture(file);
                     }
+                    loadedNodes.add(path);
                 }
             }
         });

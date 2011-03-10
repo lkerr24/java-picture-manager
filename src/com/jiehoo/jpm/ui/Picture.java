@@ -16,8 +16,8 @@ public class Picture extends JLabel {
     private static Logger logger = Logger.getLogger(MainFrame.class);
     private static BufferedImage folderImage;
     private static BufferedImage errorImage;
-    private static int width = 256;
-    private static int height = 256;
+    private static int width = 128;
+    private static int height = 128;
 
     static {
         try {
@@ -40,9 +40,20 @@ public class Picture extends JLabel {
             try {
                 setIcon(new ImageIcon(ImageManager.getThumbnails(file)));
             } catch (Exception e) {
-                logger.warn("Can't read image:"+file,e);
+                logger.warn("Can't read image:" + file, e);
                 setIcon(new ImageIcon(errorImage));
             }
+        }
+        setVerticalTextPosition(JLabel.BOTTOM);
+        setHorizontalTextPosition(JLabel.CENTER);
+    }
+
+    public Picture(File file, int width, int height) {
+        try {
+            setIcon(new ImageIcon(ImageManager.getImage(file, width, height)));
+        } catch (IOException e) {
+            logger.warn("Can't read image:" + file, e);
+            setIcon(new ImageIcon(errorImage));
         }
         setVerticalTextPosition(JLabel.BOTTOM);
         setHorizontalTextPosition(JLabel.CENTER);
