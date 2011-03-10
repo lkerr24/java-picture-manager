@@ -1,0 +1,9 @@
+Project Base
+Can create many projects, every project can contains many root folders and one output folder
+Scanned result will be saved, and scanned image will not be scanned again except force it.
+Remove duplicate items in project, with recomment result based on file size and file path, and can preview
+Every image can add many tags and one rank
+Search image based on tag and rank
+Export select images with specified percentage
+Rename files based on date time
+Show slides based on file name and date time
