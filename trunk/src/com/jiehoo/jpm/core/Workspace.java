@@ -1,27 +1,14 @@
 package com.jiehoo.jpm.core;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.prefs.Preferences;
-
-import org.apache.log4j.Logger;
-
 import com.jiehoo.jpm.Utils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.prefs.Preferences;
 
 public class Workspace {
 	private static Logger logger = Logger.getLogger(Workspace.class);
@@ -149,8 +136,10 @@ public class Workspace {
 	
 	public void save() throws IOException
 	{
-		xstream.toXML(instance, new PrintStream(new FileOutputStream(new File(outputPath, FILE_NAME)),
-				false, "UTF8"));
+        PrintStream writer = new PrintStream(new FileOutputStream(new File(
+                outputPath, FILE_NAME)), false, "UTF8");
+        //writer.print('\ufeff');
+		xstream.toXML(instance, writer);
 	}
 
 
@@ -200,35 +189,30 @@ public class Workspace {
 
 	public void listDuplicate() {
 		HashMap<String, ArrayList<String>> fileIDMap = new HashMap<String, ArrayList<String>>();
-		Iterator<Map.Entry<String, ImageInfo>> iter = imageMap.entrySet()
-				.iterator();
-		while (iter.hasNext()) {
-			Map.Entry<String, ImageInfo> entry = iter.next();
-			String path = entry.getKey();
-			ImageInfo image = entry.getValue();
-			String ID = image.getID();
-			if (fileIDMap.containsKey(ID)) {
-				ArrayList<String> list = fileIDMap.get(ID);
-				list.add(path);
-			} else {
-				ArrayList<String> list = new ArrayList<String>();
-				list.add(path);
-				fileIDMap.put(ID, list);
-			}
-		}
-		Iterator<Map.Entry<String, ArrayList<String>>> iter2 = fileIDMap
-				.entrySet().iterator();
-		while (iter2.hasNext()) {
-			Map.Entry<String, ArrayList<String>> entry = iter2.next();
-			ArrayList<String> list = entry.getValue();
-			if (list.size() > 1) {
-				System.out.print("Duplicate: ");
-				for (String s : list) {
-					System.out.print(s + " <-> ");
-				}
-				System.out.println();
-			}
-		}
+        for (Entry<String, ImageInfo> stringImageInfoEntry : imageMap.entrySet()) {
+            String path = stringImageInfoEntry.getKey();
+            ImageInfo image = stringImageInfoEntry.getValue();
+            String ID = image.getID();
+            if (fileIDMap.containsKey(ID)) {
+                ArrayList<String> list = fileIDMap.get(ID);
+                list.add(path);
+            } else {
+                ArrayList<String> list = new ArrayList<String>();
+                list.add(path);
+                fileIDMap.put(ID, list);
+            }
+        }
+        for (Entry<String, ArrayList<String>> stringArrayListEntry : fileIDMap
+                .entrySet()) {
+            ArrayList<String> list = stringArrayListEntry.getValue();
+            if (list.size() > 1) {
+                System.out.print("Duplicate: ");
+                for (String s : list) {
+                    System.out.print(s + " <-> ");
+                }
+                System.out.println();
+            }
+        }
 	}
 
 	public void output() throws IOException {
