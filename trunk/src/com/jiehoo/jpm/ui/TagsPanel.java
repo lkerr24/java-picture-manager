@@ -2,8 +2,10 @@ package com.jiehoo.jpm.ui;
 
 import com.jiehoo.jpm.core.Tag;
 import com.jiehoo.jpm.core.Workspace;
+import com.jiehoo.jpm.Utils;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +15,16 @@ public class TagsPanel extends JPanel {
 	private JPanel tagsPanel;
 
 	public TagsPanel() {
+        JPanel panel=new JPanel();
+        panel.add(new JLabel(Utils.resource.getString("label_newTag")));
 		final JTextField newTagField = new JTextField();
-		newTagField.setSize(120, 80);
+        newTagField.setColumns(20);
 		setLayout(new BorderLayout());
-		add(newTagField, "North");
-		newTagField.addActionListener(new ActionListener() {
+        panel.add(newTagField);
+        JButton button=new JButton(Utils.resource.getString("button_newTag"));
+        panel.add(button);
+		add(panel, "South");
+        ActionListener actionListener=new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tag tag = Workspace.getInstance().createTag(
 						newTagField.getText());
@@ -26,7 +33,11 @@ public class TagsPanel extends JPanel {
 				newTagField.setText("");
 				((MainFrame)UIManager.getComponent(UIManager.MAIN_FRAME)).saveWorkspace();
 			}
-		});
+		};
+
+		newTagField.addActionListener(actionListener);
+        button.addActionListener(actionListener);
+        
 		tagsPanel = new JPanel();
 		tagsPanel.setLayout(new GridLayout(0, 10, 5, 5));
 		add(tagsPanel, "Center");
@@ -49,6 +60,7 @@ public class TagsPanel extends JPanel {
 					((MainFrame)UIManager.getComponent(UIManager.MAIN_FRAME)).applyTag(tagID);
 				}
 			});
+            setBorder(new BevelBorder(BevelBorder.RAISED));
 		}
 	}
 

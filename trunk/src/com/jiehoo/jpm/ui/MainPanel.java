@@ -26,13 +26,12 @@ public class MainPanel extends JSplitPane {
         JScrollPane scrollPane=new JScrollPane();
         scrollPane.getViewport().add(tagsPanel);
         setLeftComponent(scrollPane);
-        cardPanel.setLayout(cardLayout);
-        cardPanel.add(picturesPanel,PICTURES_VIEW);
-        cardPanel.add(picturePanel,PICTURE_VIEW);
-        picturePanel.setLayout(new ViewportLayout());
         scrollPane=new JScrollPane();
-        scrollPane.getViewport().add(cardPanel);
-        setRightComponent(scrollPane);
+        scrollPane.getViewport().add(picturesPanel);
+        cardPanel.setLayout(cardLayout);
+        cardPanel.add(scrollPane,PICTURES_VIEW);
+        cardPanel.add(picturePanel,PICTURE_VIEW);
+        setRightComponent(cardPanel);
     }
 
     public void viewPictures(File[] files)
@@ -53,7 +52,7 @@ public class MainPanel extends JSplitPane {
 
     public void viewPicture(File file) {
         cardLayout.show(cardPanel,PICTURE_VIEW);
-        Picture picture=new Picture(file,picturesPanel.getWidth(),(int)(getHeight()*(1-getResizeWeight()))-getDividerSize()-100);
+        Picture picture=new Picture(file,picturePanel.getWidth(),picturePanel.getHeight());
         picturePanel.removeAll();
         picturePanel.add(picture);
         updateUI();
