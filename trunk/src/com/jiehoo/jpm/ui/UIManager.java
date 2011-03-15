@@ -19,6 +19,7 @@ public class UIManager {
     public static final String MAIN_FRAME = "MAIN_FRAME";
     public static final String MAIN_PANEL = "MAIN_PANEL";
     public static final String TAGS_PANEL = "TAGS_PANEL";
+    public static final String NAVIGATE_PANEL = "NAVIGATE_PANEL";
 
     public static void setComponent(String name, Object componenet) {
         components.put(name, componenet);
