@@ -45,7 +45,7 @@
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java" charset="UTF-8" />
   </component>
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />

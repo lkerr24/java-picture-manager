@@ -1,7 +1,7 @@
 package com.jiehoo.jpm.ui;
 
-import com.jiehoo.jpm.Utils;
-import com.jiehoo.jpm.core.ImageManager;
+import com.jiehoo.jpm.ImageManager;
+import com.jiehoo.jpm.JPMException;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -11,13 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 /**
  *
  */
 public class Picture extends JLabel {
-    private static Logger logger = Logger.getLogger(MainFrame.class);
+    private static Logger logger = Logger.getLogger(Picture.class);
     private static BufferedImage folderImage;
     private static BufferedImage errorImage;
     private static int width = 100;
@@ -28,17 +27,36 @@ public class Picture extends JLabel {
     private File file;
     private boolean isPicture;
 
-    static {
-        try {
-            folderImage = ImageManager.getImage(getImageFile("image_folder"), width, height);
-            errorImage = ImageManager.getImage(getImageFile("image_error"), width, height);
-        } catch (IOException e) {
-            logger.error("Can't open image.", e);
+    private static MouseListener mouseListener = new MouseListener() {
+        public void mousePressed(MouseEvent e) {
         }
-    }
 
-    private static File getImageFile(String resourceKey) {
-        return new File(Picture.class.getResource(Utils.resource.getString("image_path")).getFile(), Utils.resource.getString(resourceKey));
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            Picture picture = (Picture) e.getSource();
+            if (!picture.isPicture && e.getClickCount() == 2) {
+                e.consume();
+                ((NavigatePanel) UIManager.getComponent(UIManager.NAVIGATE_PANEL)).selectChild(picture.getName());
+            }
+            picture.changeSelected();
+            picture.setBorder();
+            TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
+            tagsPanel.reset();
+
+        }
+    };
+
+    static {
+        folderImage = ImageManager.getImage(ImageManager.getImageFile("image_folder"), width, height);
+        errorImage = ImageManager.getImage(ImageManager.getImageFile("image_error"), width, height);
     }
 
     public Picture(File file) {
@@ -62,7 +80,7 @@ public class Picture extends JLabel {
         isPicture = true;
         try {
             setIcon(new ImageIcon(ImageManager.getImage(file, width, height)));
-        } catch (IOException e) {
+        } catch (JPMException e) {
             logger.warn("Can't read image:" + file, e);
             setIcon(new ImageIcon(errorImage));
         }
@@ -98,29 +116,18 @@ public class Picture extends JLabel {
         return file.getAbsolutePath();
     }
 
+    private void changeSelected() {
+        selected = !selected;
+    }
+
+    public String getName() {
+        return file.getName();
+    }
+
     private void init() {
         setVerticalTextPosition(JLabel.BOTTOM);
         setHorizontalTextPosition(JLabel.CENTER);
         setBorder();
-        addMouseListener(new MouseListener() {
-            public void mousePressed(MouseEvent e) {
-            }
-
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseExited(MouseEvent e) {
-            }
-
-            public void mouseClicked(MouseEvent e) {
-                selected = !selected;
-                setBorder();
-                TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
-                tagsPanel.reset();
-            }
-        });
+        addMouseListener(mouseListener);
     }
 }

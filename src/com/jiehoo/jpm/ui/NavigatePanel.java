@@ -1,5 +1,6 @@
 package com.jiehoo.jpm.ui;
 
+import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.Utils;
 import com.jiehoo.jpm.core.Workspace;
 
@@ -8,8 +9,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.io.File;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,12 +23,14 @@ public class NavigatePanel extends JScrollPane {
     private Set<String> loadedNodes = new HashSet<String>();
 
     public NavigatePanel() {
-        topNode = new DefaultMutableTreeNode(Utils.resource.getString("workspace"));
+        UIManager.setComponent(UIManager.NAVIGATE_PANEL, this);
+        topNode = new MyMutableTreeNode(Utils.resource.getString("workspace"));
         tree = new JTree(topNode);
         getViewport().add(tree);
         tree.setExpandsSelectedPaths(true);
+        tree.setCellRenderer(new MyTreeCellRenderer());
         for (String path : Workspace.getInstance().getPaths()) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(path);
+            DefaultMutableTreeNode node = new MyMutableTreeNode(path);
             topNode.add(node);
         }
         tree.expandPath(new TreePath(topNode));
@@ -32,44 +38,52 @@ public class NavigatePanel extends JScrollPane {
             public void valueChanged(TreeSelectionEvent e) {
                 TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
                 tagsPanel.reset();
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
-                        .getPath().getLastPathComponent();
-                if (node != topNode) {
-                    String path = getPath(node);
-                    File file = new File(path);
-                    if (file.isDirectory()) {
-                        MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
-                        mainPanel.reset();
-                        File[] files = file.listFiles(Utils.fileTreeFilter);
-                        if (files != null) {
-
-                            if (!loadedNodes.contains(path)) {
-                                for (File f : files) {
-                                    if (f.isDirectory() && f.getName().equalsIgnoreCase("thumbnails")) {
-                                        continue;
-                                    }
-                                    DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(
-                                            f.getName());
-                                    node.add(childNode);
-                                }
-                                ((DefaultTreeModel) tree.getModel())
-                                        .nodeStructureChanged(node);
-                                tree.expandPath(e.getPath());
-                            }
-                            mainPanel.viewPictures(files);
-                        }
-                    } else {
-                        ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).viewPicture(file);
-                    }
-                    loadedNodes.add(path);
-                }
+                selectNode((DefaultMutableTreeNode) e.getPath().getLastPathComponent());
             }
         });
     }
 
-    public String getSelectedPicture() {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
-        return getPath(node);
+    public void selectChild(String childName) {
+        for (Enumeration e = ((DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent()).children(); e.hasMoreElements();) {
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode) e.nextElement();
+            if (child.getUserObject().equals(childName)) {
+                selectNode(child);
+                TreePath treePath = new TreePath(child.getPath());
+                tree.setSelectionPath(treePath);
+                tree.scrollPathToVisible(treePath);
+                return;
+            }
+        }
+    }
+
+    public void selectNode(DefaultMutableTreeNode node) {
+        if (node != topNode) {
+            String path = getPath(node);
+            File file = new File(path);
+            if (file.isDirectory()) {
+                MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
+                mainPanel.reset();
+                File[] files = file.listFiles(Utils.fileTreeFilter);
+                if (files != null) {
+
+                    if (!loadedNodes.contains(path)) {
+                        for (File f : files) {
+                            if (f.isDirectory() && f.getName().equalsIgnoreCase("thumbnails")) {
+                                continue;
+                            }
+                            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(f.getName());
+                            node.add(childNode);
+                        }
+                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
+                    }
+                    mainPanel.viewPictures(files);
+                }
+            } else {
+                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).viewPicture(file);
+            }
+            loadedNodes.add(path);
+        }
+        tree.expandPath(new TreePath(node.getPath()));
     }
 
     private String getPath(DefaultMutableTreeNode node) {
@@ -87,5 +101,60 @@ public class NavigatePanel extends JScrollPane {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(dir);
         topNode.add(node);
         ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(topNode);
+    }
+
+    static class MyMutableTreeNode extends DefaultMutableTreeNode {
+        boolean isRoot;
+        boolean isDirectory;
+        boolean containsPictures;
+        boolean containsDirectories;
+
+        public MyMutableTreeNode(String name) {
+            this(name, false);
+        }
+
+        public MyMutableTreeNode(String name, boolean isRoot) {
+            super(name);
+            this.isRoot = isRoot;
+        }
+
+        public void detectType(String path) {
+
+        }
+    }
+
+    static class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
+        static Icon workspaceIcon;
+        static Icon folderIcon;
+        static Icon emptyFolderIcon;
+        static Icon pictureFolderIcon;
+        static int width = 16;
+        static int height = 16;
+
+        static {
+            workspaceIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_workspace"), width, height));
+            folderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_folder"), width, height));
+            emptyFolderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_emptyFolder"), width, height));
+            pictureFolderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_pictureFolder"), width, height));
+        }
+
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            MyMutableTreeNode node = (MyMutableTreeNode) value;
+            if (node.isRoot) {
+                setIcon(workspaceIcon);
+            } else if (node.isDirectory) {
+                if (node.containsPictures) {
+                    setIcon(pictureFolderIcon);
+                } else if (node.containsDirectories) {
+                    setIcon(folderIcon);
+                } else {
+                    setIcon(emptyFolderIcon);
+                }
+            } else {
+                setIcon(new ImageIcon());
+            }
+            setText((String) node.getUserObject());
+            return this;
+        }
     }
 }
