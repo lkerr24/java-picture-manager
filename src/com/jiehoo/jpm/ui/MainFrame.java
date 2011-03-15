@@ -2,14 +2,12 @@ package com.jiehoo.jpm.ui;
 
 import com.jiehoo.jpm.Utils;
 import com.jiehoo.jpm.core.Workspace;
-import org.apache.log4j.Logger;
 import org.jr.swing.JDynamicButton;
 import org.jr.swing.MenuItemProperty;
 import org.jr.swing.MenuProperty;
 import org.jr.swing.util.SwingUtil;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 public class MainFrame extends JFrame {
-    private static Logger logger = Logger.getLogger(MainFrame.class);
     private Preferences preference;
     String frameTitle;
 
@@ -43,6 +40,8 @@ public class MainFrame extends JFrame {
     JMenuItem viewSlidesMenuItem;
     JMenuItem exportPicturesMenuItem;
 
+    SearchDialog searchDialog;
+
     public MainFrame() {
         init();
     }
@@ -53,7 +52,6 @@ public class MainFrame extends JFrame {
         contentPane = this.getContentPane();
         navigatePanel = new NavigatePanel();
         mainPanel = new MainPanel();
-        UIManager.setComponent(UIManager.MAINPANEL, mainPanel);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigatePanel,
                 mainPanel);
         splitPane.setResizeWeight(0.1);
@@ -67,6 +65,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initFrame() {
+        UIManager.setComponent(UIManager.MAIN_FRAME, this);
         frameTitle = Utils.resource.getString("main_title");
         setTitle(frameTitle);
         setIconImage(getImageIcon(Utils.resource.getString("logo")).getImage());
@@ -78,13 +77,15 @@ public class MainFrame extends JFrame {
             setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        UIManager.setComponent(UIManager.MAIN_FRAME, this);
     }
 
     private void initAction() {
         AddPathAction addPathAction = new AddPathAction();
         addPathMenuItem.addActionListener(addPathAction);
         addPathButton.addActionListener(addPathAction);
+        SearchAction searchAction = new SearchAction();
+        scanMenuItem.addActionListener(searchAction);
+        scanButton.addActionListener(searchAction);
     }
 
     private void createMenubar() {
@@ -141,20 +142,6 @@ public class MainFrame extends JFrame {
     }
 
 
-    public void saveWorkspace() {
-        try {
-            Workspace.getInstance().save();
-        } catch (IOException e) {
-            UIManager.reportError("Can't save workspace file.", e);
-        }
-    }
-
-    public void applyTag(int tagID) {
-        String file = navigatePanel.getSelectedPicture();
-        Workspace.getInstance().applyTag(file, tagID);
-        saveWorkspace();
-    }
-
     private void addPath() {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -168,7 +155,7 @@ public class MainFrame extends JFrame {
                     file.getAbsolutePath());
             if (isValidNewPath) {
                 navigatePanel.addNode(file.getAbsolutePath());
-                saveWorkspace();
+                UIManager.saveWorkspace();
                 Thread scanThread = new Thread() {
                     public void run() {
                         try {
@@ -176,7 +163,7 @@ public class MainFrame extends JFrame {
                         } catch (IOException e) {
                             UIManager.reportError("Scan workspace error.", e);
                         }
-                        saveWorkspace();
+                        UIManager.saveWorkspace();
                     }
                 };
                 scanThread.start();
@@ -184,10 +171,23 @@ public class MainFrame extends JFrame {
         }
     }
 
+    private void search() {
+        if (searchDialog == null) {
+            searchDialog = new SearchDialog();
+        }
+        searchDialog.setVisible(true);
+    }
+
 
     class AddPathAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             addPath();
+        }
+    }
+
+    class SearchAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            search();
         }
     }
 }
