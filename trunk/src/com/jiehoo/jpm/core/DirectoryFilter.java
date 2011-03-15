@@ -5,15 +5,8 @@ import java.io.FileFilter;
 
 public class DirectoryFilter implements FileFilter {
 
-	public boolean accept(File pathname) {
-		if (pathname.isDirectory())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+    public boolean accept(File pathname) {
+        return pathname.isDirectory();
+    }
 
 }
