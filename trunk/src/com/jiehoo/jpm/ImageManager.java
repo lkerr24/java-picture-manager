@@ -6,13 +6,22 @@ import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
 import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ImageManager {
+    private static final int MAX_ENTRIES = 500;
+    private static Map thumbnailsCache = new LinkedHashMap(MAX_ENTRIES, .75F, true) {
+        protected boolean removeEldestEntry(Map.Entry eldest) {
+            return size() > MAX_ENTRIES;
+        }
+    };
 
     public static BufferedImage getImage(File file, int width, int height) {
         BufferedImage originalImage;
@@ -60,16 +69,26 @@ public class ImageManager {
                 .getType();
     }
 
-    private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) {
-        BufferedImage resizedImage = new BufferedImage(width, height,
-                getImageType(originalImage));
+    private static BufferedImage resizeImage(Image originalImage, int width, int height, int type) {
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);
         g.dispose();
         return resizedImage;
     }
 
+    private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) {
+        return resizeImage(originalImage, width, height, getImageType(originalImage));
+    }
+
+    public static BufferedImage getThumbnails(File file, int width, int height) {
+        return resizeImage(new ImageIcon(getThumbnails(file)).getImage(), width, height, BufferedImage.TYPE_INT_ARGB);
+    }
+
     public static byte[] getThumbnails(File file) {
+        if (thumbnailsCache.containsKey(file)) {
+            return (byte[]) thumbnailsCache.get(file);
+        }
         byte[] data = null;
         IImageMetadata metadata;
         try {
@@ -91,10 +110,11 @@ public class ImageManager {
                 }
             }
         }
+        thumbnailsCache.put(file, data);
         return data;
     }
 
     public static File getImageFile(String resourceKey) {
-        return new File(ImageManager.class.getResource(Utils.resource.getString("image_path")).getFile() + "/ui", Utils.resource.getString(resourceKey));
+        return new File(ImageManager.class.getResource("ui/" + Utils.resource.getString("image_path")).getFile(), Utils.resource.getString(resourceKey));
     }
 }
