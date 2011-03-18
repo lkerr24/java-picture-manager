@@ -1,5 +1,6 @@
 package com.jiehoo.jpm.ui;
 
+import com.jiehoo.jpm.Constants;
 import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.JPMException;
 import org.apache.log4j.Logger;
@@ -19,8 +20,6 @@ public class Picture extends JLabel {
     private static Logger logger = Logger.getLogger(Picture.class);
     private static BufferedImage folderImage;
     private static BufferedImage errorImage;
-    private static int width = 100;
-    private static int height = 100;
     private boolean selected = false;
     private TitledBorder selectedBorder;
     private TitledBorder unselectedBorder;
@@ -55,8 +54,8 @@ public class Picture extends JLabel {
     };
 
     static {
-        folderImage = ImageManager.getImage(ImageManager.getImageFile("image_folder"), width, height);
-        errorImage = ImageManager.getImage(ImageManager.getImageFile("image_error"), width, height);
+        folderImage = ImageManager.getImage(ImageManager.getImageFile("image_folder"), Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
+        errorImage = ImageManager.getImage(ImageManager.getImageFile("image_error"), Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
     }
 
     public Picture(File file) {

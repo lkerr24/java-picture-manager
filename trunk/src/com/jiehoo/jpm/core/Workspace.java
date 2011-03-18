@@ -1,5 +1,6 @@
 package com.jiehoo.jpm.core;
 
+import com.jiehoo.jpm.Constants;
 import com.jiehoo.jpm.Utils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -88,7 +89,7 @@ public class Workspace {
         image.setRank(rank);
     }
 
-    private List<Tag> GetOtherTags(HashSet<Integer> alreadyUsedTags) {
+    private List<Tag> getOtherTags(HashSet<Integer> alreadyUsedTags) {
         List<Tag> result = new ArrayList<Tag>();
         result.addAll(tags.values());
         for (int i = 0; i < result.size(); i++) {
@@ -101,14 +102,14 @@ public class Workspace {
         return result;
     }
 
-    public List<Tag> GetLastUsedTags(HashSet<Integer> alreadyUsedTags, int maxResult) {
-        List<Tag> result = GetOtherTags(alreadyUsedTags);
+    public List<Tag> getLastUsedTags(HashSet<Integer> alreadyUsedTags, int maxResult) {
+        List<Tag> result = getOtherTags(alreadyUsedTags);
         Collections.sort(result, lastUsedTimeSorter);
         return result.subList(0, maxResult > result.size() ? result.size() : maxResult);
     }
 
-    public List<Tag> GetOftenUsedTags(HashSet<Integer> alreadyUsedTags, int maxResult) {
-        List<Tag> result = GetOtherTags(alreadyUsedTags);
+    public List<Tag> getOftenUsedTags(HashSet<Integer> alreadyUsedTags, int maxResult) {
+        List<Tag> result = getOtherTags(alreadyUsedTags);
         Collections.sort(result, usedTimesSorter);
         return result.subList(0, maxResult > result.size() ? result.size() : maxResult);
     }
@@ -166,6 +167,9 @@ public class Workspace {
 
     private void scan(File dir, boolean forceUpdate) throws IOException {
         logger.info("Scan directory:" + dir.getAbsolutePath());
+        if (!dir.exists() || dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) {
+            return;
+        }
         File[] files = dir.listFiles(fileFilter);
         for (File file : files) {
             if (forceUpdate || !imageMap.containsKey(file.getAbsolutePath())) {
@@ -182,7 +186,7 @@ public class Workspace {
         }
     }
 
-    public void listDuplicate() {
+    public HashMap<String, ArrayList<String>> getDuplicates() {
         HashMap<String, ArrayList<String>> fileIDMap = new HashMap<String, ArrayList<String>>();
         for (Entry<String, ImageInfo> stringImageInfoEntry : imageMap.entrySet()) {
             String path = stringImageInfoEntry.getKey();
@@ -191,23 +195,14 @@ public class Workspace {
             if (fileIDMap.containsKey(ID)) {
                 ArrayList<String> list = fileIDMap.get(ID);
                 list.add(path);
+                logger.debug("Find duplicate item:" + ID + ", count:" + list.size());
             } else {
                 ArrayList<String> list = new ArrayList<String>();
                 list.add(path);
                 fileIDMap.put(ID, list);
             }
         }
-        for (Entry<String, ArrayList<String>> stringArrayListEntry : fileIDMap
-                .entrySet()) {
-            ArrayList<String> list = stringArrayListEntry.getValue();
-            if (list.size() > 1) {
-                System.out.print("Duplicate: ");
-                for (String s : list) {
-                    System.out.print(s + " <-> ");
-                }
-                System.out.println();
-            }
-        }
+        return fileIDMap;
     }
 
     public void output() throws IOException {
