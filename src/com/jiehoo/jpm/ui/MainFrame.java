@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
     JMenuItem exportPicturesMenuItem;
 
     SearchDialog searchDialog;
+    ResolveDuplicateDialog resolveDuplicateDialog;
 
     public MainFrame() {
         init();
@@ -86,6 +87,9 @@ public class MainFrame extends JFrame {
         SearchAction searchAction = new SearchAction();
         scanMenuItem.addActionListener(searchAction);
         scanButton.addActionListener(searchAction);
+        CheckDuplicateAction checkDuplicateAction = new CheckDuplicateAction();
+        checkDuplicateMenuItem.addActionListener(checkDuplicateAction);
+        checkDuplicateButton.addActionListener(checkDuplicateAction);
     }
 
     private void createMenubar() {
@@ -178,6 +182,11 @@ public class MainFrame extends JFrame {
         searchDialog.setVisible(true);
     }
 
+    private void checkDuplicate() {
+        resolveDuplicateDialog = new ResolveDuplicateDialog();
+        resolveDuplicateDialog.setVisible(true);
+    }
+
 
     class AddPathAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -188,6 +197,12 @@ public class MainFrame extends JFrame {
     class SearchAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             search();
+        }
+    }
+
+    class CheckDuplicateAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            checkDuplicate();
         }
     }
 }

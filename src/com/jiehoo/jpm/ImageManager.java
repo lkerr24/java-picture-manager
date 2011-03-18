@@ -1,5 +1,6 @@
 package com.jiehoo.jpm;
 
+import org.apache.log4j.Logger;
 import org.apache.sanselan.Sanselan;
 import org.apache.sanselan.common.IImageMetadata;
 import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
@@ -9,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,8 +18,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ImageManager {
+    private static Logger logger = Logger.getLogger(ImageManager.class);
     private static final int MAX_ENTRIES = 500;
-    private static Map thumbnailsCache = new LinkedHashMap(MAX_ENTRIES, .75F, true) {
+    private static Map<File, byte[]> thumbnailsCache = new LinkedHashMap<File, byte[]>(MAX_ENTRIES, .75F, true) {
         protected boolean removeEldestEntry(Map.Entry eldest) {
             return size() > MAX_ENTRIES;
         }
@@ -87,7 +90,7 @@ public class ImageManager {
 
     public static byte[] getThumbnails(File file) {
         if (thumbnailsCache.containsKey(file)) {
-            return (byte[]) thumbnailsCache.get(file);
+            return thumbnailsCache.get(file);
         }
         byte[] data = null;
         IImageMetadata metadata;
@@ -105,10 +108,31 @@ public class ImageManager {
                 if (tiffdir.getJpegImageData() != null) {
                     data = tiffdir.getJpegImageData().data;
                     if (data != null) {
-                        return data;
+                        break;
                     }
                 }
             }
+        }
+        if (data == null) {
+            BufferedImage image = getImage(file, Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(image, getFormat(file.getName()), baos);
+                File dir = new File(file.getParent(), Constants.THUMBNAILS_DIRECTORY);
+                boolean canOuput = true;
+                if (!dir.exists()) {
+                    if (!dir.mkdir()) {
+                        canOuput = false;
+                        logger.warn("Can't create thumbnails directory:" + dir);
+                    }
+                }
+                if (canOuput) {
+                    ImageIO.write(image, getFormat(file.getName()), new File(dir, file.getName()));
+                }
+            } catch (Exception e) {
+                throw new JPMException("Can't create thumbnail:" + file.getAbsolutePath(), e);
+            }
+            data = baos.toByteArray();
         }
         thumbnailsCache.put(file, data);
         return data;
