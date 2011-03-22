@@ -104,10 +104,10 @@ public class Picture extends JLabel {
         StringBuilder buffer = new StringBuilder();
         ImageInfo image = Workspace.getInstance().getImage(path);
         buffer.append("<html>");
-        buffer.append("Path:").append(path).append("<br/>");
-        buffer.append("Size:").append(image.getSize()).append("<br/>");
-        buffer.append("Date:").append(image.getDate()).append("<br/>");
-        buffer.append("Rank:").append(image.getRank()).append("<br/>");
+        buffer.append("Path:").append(path).append("<br>");
+        buffer.append("Size:").append(image.getSize()).append("<br>");
+        buffer.append("Date:").append(image.getDate()).append("<br>");
+        buffer.append("Rank:").append(image.getRank()).append("<br>");
         buffer.append("</html>");
         return buffer.toString();
     }

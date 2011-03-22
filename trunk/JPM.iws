@@ -2,11 +2,8 @@
 <project relativePaths="false" version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/log4j.xml" afterPath="$PROJECT_DIR$/src/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.iml" afterPath="$PROJECT_DIR$/JPM.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.iws" afterPath="$PROJECT_DIR$/JPM.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jpm.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jpm.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="JPM.iws" />
@@ -91,10 +88,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Picture.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Picture.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="38" selection-start="2173" selection-end="2173" vertical-scroll-proportion="0.0">
+            <state line="36" column="48" selection-start="1059" selection-end="1059" vertical-scroll-proportion="-0.10070671">
               <folding />
             </state>
           </provider>
@@ -111,10 +108,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jpm.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="jpm.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jpm.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="5" selection-start="607" selection-end="607" vertical-scroll-proportion="0.33239436">
+            <state line="16" column="5" selection-start="607" selection-end="607" vertical-scroll-proportion="71.61539">
               <folding />
             </state>
           </provider>
@@ -447,7 +444,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1688" height="992" extended-state="6" />
+    <frame x="-4" y="-4" width="1688" height="992" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294621" sideWeight="0.5" order="3" side_tool="false" />
@@ -455,15 +452,15 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4154412" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25857842" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21446079" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4595588" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4595588" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22303921" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.80759805" order="1" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997555" sideWeight="0.5" order="0" side_tool="false" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2672414" sideWeight="0.53186274" order="0" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2672414" sideWeight="0.7769608" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292978" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" />
@@ -592,13 +589,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="38" selection-start="2173" selection-end="2173" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/log4j.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="22" selection-start="866" selection-end="866" vertical-scroll-proportion="0.6972477">
@@ -617,7 +607,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jpm.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="5" selection-start="607" selection-end="607" vertical-scroll-proportion="0.33239436">
+        <state line="16" column="5" selection-start="607" selection-end="607" vertical-scroll-proportion="71.61539">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="48" selection-start="1059" selection-end="1059" vertical-scroll-proportion="-0.10070671">
           <folding />
         </state>
       </provider>
