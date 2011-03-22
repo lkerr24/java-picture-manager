@@ -46,6 +46,11 @@ public class Picture extends JLabel {
                 e.consume();
                 ((NavigatePanel) UIManager.getComponent(UIManager.NAVIGATE_PANEL)).selectChild(picture.getName());
                 return;
+            } else if (picture.isPicture && e.getClickCount() == 2) {
+                e.consume();
+                ((NavigatePanel) UIManager.getComponent(UIManager.NAVIGATE_PANEL)).selectChild(picture.getName());
+                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).viewPicture(picture.getPicture());
+                return;
             } else if (e.isControlDown()) {
                 picture.changeSelected();
                 picture.setBorder();
