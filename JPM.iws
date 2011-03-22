@@ -2,23 +2,8 @@
 <project relativePaths="false" version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/UIManager.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/UIManager.java" />
-      <change type="MOVED" beforePath="D:\Workspace\JPM\src\com\jiehoo\jpm\ui\images\scan.png" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/images/search.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/SearchDialog.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/SearchDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources.properties" afterPath="$PROJECT_DIR$/src/resources.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/DuplicateItem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.iws" afterPath="$PROJECT_DIR$/JPM.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ResolveDuplicateDialog.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ResolveDuplicateDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ExportDialog.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ExportDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.ipr" afterPath="$PROJECT_DIR$/JPM.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/Utils.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/Utils.java" />
-      <change type="MOVED" beforePath="D:\Workspace\JPM\src\com\jiehoo\jpm\ui\images\checkDuplicate.png" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/images/deduplicate.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="JPM.iws" />
@@ -84,8 +69,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -98,9 +83,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ExportDialog.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="62" column="59" selection-start="2290" selection-end="2341" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -108,7 +91,7 @@
       <file leaf-file-name="ResolveDuplicateDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ResolveDuplicateDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="60" selection-start="5731" selection-end="5731" vertical-scroll-proportion="0.0">
+            <state line="151" column="60" selection-start="5766" selection-end="5766" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,7 +100,7 @@
       <file leaf-file-name="MainPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="21" selection-start="5663" selection-end="5663" vertical-scroll-proportion="-13.148149">
+            <state line="158" column="21" selection-start="5642" selection-end="5642" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -127,9 +110,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="119" column="68" selection-start="4324" selection-end="4324" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -156,16 +137,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="128" column="69" selection-start="4891" selection-end="4891" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <marker date="1300781425052" expanded="true" signature="3468:4397" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="4443:4613" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="4648:5068" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="5129:5660" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="5709:5855" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="6298:6691" placeholder="{...}" />
-                <marker date="1300781425052" expanded="true" signature="6719:6858" placeholder="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -191,7 +163,7 @@
       <file leaf-file-name="NavigatePanel.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="192" column="24" selection-start="7852" selection-end="7852" vertical-scroll-proportion="1.7657993">
+            <state line="177" column="18" selection-start="7293" selection-end="7293" vertical-scroll-proportion="0.4224599">
               <folding />
             </state>
           </provider>
@@ -535,9 +507,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
@@ -710,7 +682,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4154412" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24877451" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24763033" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4595588" sideWeight="0.5" order="7" side_tool="false" />
@@ -808,9 +780,35 @@
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ExportDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="62" column="59" selection-start="2290" selection-end="2341" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ResolveDuplicateDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="60" selection-start="5766" selection-end="5766" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="158" column="21" selection-start="5642" selection-end="5642" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="68" selection-start="4324" selection-end="4324" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/UIManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="22" selection-start="297" selection-end="306" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -821,26 +819,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/ResolveDuplicateDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="60" selection-start="5731" selection-end="5731" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="128" column="69" selection-start="4891" selection-end="4891" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1300781425052" expanded="true" signature="3468:4397" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="4443:4613" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="4648:5068" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="5129:5660" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="5709:5855" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="6298:6691" placeholder="{...}" />
-            <marker date="1300781425052" expanded="true" signature="6719:6858" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -858,32 +840,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/UIManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="22" selection-start="297" selection-end="306" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="68" selection-start="4324" selection-end="4324" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="21" selection-start="5663" selection-end="5663" vertical-scroll-proportion="-13.148149">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="24" selection-start="7852" selection-end="7852" vertical-scroll-proportion="1.7657993">
+        <state line="177" column="18" selection-start="7293" selection-end="7293" vertical-scroll-proportion="0.4224599">
           <folding />
         </state>
       </provider>
