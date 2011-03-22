@@ -14,20 +14,76 @@ import java.util.prefs.Preferences;
 public class Workspace {
     private static Logger logger = Logger.getLogger(Workspace.class);
     private static final String FILE_NAME = "jpm.xml";
+
+
     private String outputPath;
     private int tagIndex;
-    private HashSet<String> paths = new HashSet<String>();
+    private int pathIndex;
+    private HashMap<Integer, Path> paths = new HashMap<Integer, Path>();
     private HashMap<Integer, Tag> tags = new HashMap<Integer, Tag>();
-    private HashMap<String, ImageInfo> imageMap = new HashMap<String, ImageInfo>();
+    private HashMap<File, ImageInfo> imageMap = new HashMap<File, ImageInfo>();
     private static TagSortByUsedTimes usedTimesSorter = new TagSortByUsedTimes();
     private static TagSortByLastUsedTime lastUsedTimeSorter = new TagSortByLastUsedTime();
     private static Workspace instance;
     private static XStream xstream = new XStream(new DomDriver());
+    private static Comparator<File> duplicateComparator = new Comparator<File>() {
+        public int compare(File o1, File o2) {
+            ImageInfo i1 = Workspace.getInstance().getImage(o1);
+            ImageInfo i2 = Workspace.getInstance().getImage(o1);
+            int value = (int) (i2.getSize() - i1.getSize());
+            if (value == 0) {
+                return o1.getAbsolutePath().length() - o2.getAbsolutePath().length();
+            } else {
+                return value;
+            }
+        }
+    };
 
     static {
         xstream.alias("Workspace", Workspace.class);
-        xstream.alias("Image", ImageInfo.class);
-        xstream.alias("Tag", Tag.class);
+        xstream.alias("image", ImageInfo.class);
+        xstream.alias("tag", Tag.class);
+        xstream.alias("path", Path.class);
+        xstream.useAttributeFor(Tag.class, "ID");
+        xstream.useAttributeFor(Tag.class, "name");
+        xstream.useAttributeFor(Tag.class, "lastUsedTime");
+        xstream.useAttributeFor(Tag.class, "usedTimes");
+        xstream.useAttributeFor(Path.class, "ID");
+        xstream.useAttributeFor(Path.class, "value");
+        xstream.registerConverter(new WorkspaceConverter());
+        xstream.registerConverter(new ImageInfoConverter());
+    }
+
+    public void setTagIndex(int tagIndex) {
+        this.tagIndex = tagIndex;
+    }
+
+    public void setPathIndex(int pathIndex) {
+        this.pathIndex = pathIndex;
+    }
+
+    public int getPathIndex() {
+        return pathIndex;
+    }
+
+    public String getOutputPath() {
+        return outputPath;
+    }
+
+    public int getTagIndex() {
+        return tagIndex;
+    }
+
+    public void deletePicture(File file) {
+        imageMap.remove(file);
+        if (!file.delete()) {
+            logger.warn("Can't delete picture:" + file);
+        }
+
+    }
+
+    protected static void setInstance(Workspace instance) {
+        Workspace.instance = instance;
     }
 
     public HashMap<Integer, Tag> getTags() {
@@ -40,17 +96,17 @@ public class Workspace {
         }
     };
 
-    private Workspace(String outputPath) {
+    protected Workspace(String outputPath) {
         this.outputPath = outputPath;
     }
 
-    public List<Entry<String, ImageInfo>> getImages(List<Integer> ranks, List<Integer> tags) {
-        List<Entry<String, ImageInfo>> images = new ArrayList<Entry<String, ImageInfo>>();
+    public List<Entry<File, ImageInfo>> getImages(List<Integer> ranks, List<Integer> tags) {
+        List<Entry<File, ImageInfo>> images = new ArrayList<Entry<File, ImageInfo>>();
         boolean anyRank = false;
         if (ranks.size() == 0) {
             anyRank = true;
         }
-        for (Entry<String, ImageInfo> entry : imageMap.entrySet()) {
+        for (Entry<File, ImageInfo> entry : imageMap.entrySet()) {
 
             if ((anyRank || ranks.contains(entry.getValue().getRank())) && entry.getValue().getTags().containsAll(tags)) {
                 images.add(entry);
@@ -73,7 +129,7 @@ public class Workspace {
         return tag;
     }
 
-    public void applyTag(String picture, int tagID, boolean remove) {
+    public void applyTag(File picture, int tagID, boolean remove) {
         ImageInfo image = imageMap.get(picture);
         Tag tag = tags.get(tagID);
         if (remove) {
@@ -84,7 +140,7 @@ public class Workspace {
         tag.use();
     }
 
-    public void applyRank(String picture, int rank) {
+    public void applyRank(File picture, int rank) {
         ImageInfo image = imageMap.get(picture);
         image.setRank(rank);
     }
@@ -141,65 +197,80 @@ public class Workspace {
     }
 
 
-    public HashMap<String, ImageInfo> getImageMap() {
+    public HashMap<File, ImageInfo> getImageMap() {
         return imageMap;
     }
 
-    public void setImageMap(HashMap<String, ImageInfo> imageMap) {
+    public void setImageMap(HashMap<File, ImageInfo> imageMap) {
         this.imageMap = imageMap;
     }
 
     public boolean addPath(String path) {
         //TODO check path already included in the old path and sub path
-        paths.add(path);
+        Path p = new Path();
+        pathIndex++;
+        p.setID(pathIndex);
+        p.setValue(path);
+        paths.put(pathIndex, p);
         return true;
     }
 
-    public HashSet<String> getPaths() {
+    public ImageInfo getImage(File path) {
+        return imageMap.get(path);
+    }
+
+    public HashMap<Integer, Path> getPaths() {
         return paths;
     }
 
     public void scan(boolean forceUpdate) throws IOException {
-        for (String s : paths) {
-            scan(new File(s), forceUpdate);
+        for (Path p : paths.values()) {
+            scan(p, new File(p.getValue()), forceUpdate);
         }
     }
 
-    private void scan(File dir, boolean forceUpdate) throws IOException {
+    private void scan(Path path, File dir, boolean forceUpdate) throws IOException {
         logger.info("Scan directory:" + dir.getAbsolutePath());
         if (!dir.exists() || dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) {
             return;
         }
         File[] files = dir.listFiles(fileFilter);
         for (File file : files) {
-            if (forceUpdate || !imageMap.containsKey(file.getAbsolutePath())) {
+            if (forceUpdate || !imageMap.containsKey(file)) {
                 ImageInfo image = new ImageInfo();
+                image.setParentPath(path.getID());
+                image.setPath(file.getAbsolutePath().substring(path.getValue().length() + 1));
                 image.extractImageInfo(file.getAbsolutePath());
-                imageMap.put(file.getAbsolutePath(), image);
+                imageMap.put(file, image);
             } else {
                 logger.debug("Scanned image:" + file.getAbsolutePath());
             }
         }
         File[] dirs = dir.listFiles(Utils.dirFilter);
         for (File d : dirs) {
-            scan(d, forceUpdate);
+            scan(path, d, forceUpdate);
         }
     }
 
-    public HashMap<String, ArrayList<String>> getDuplicates() {
-        HashMap<String, ArrayList<String>> fileIDMap = new HashMap<String, ArrayList<String>>();
-        for (Entry<String, ImageInfo> stringImageInfoEntry : imageMap.entrySet()) {
-            String path = stringImageInfoEntry.getKey();
+    public HashMap<String, ArrayList<File>> getDuplicates() {
+        HashMap<String, ArrayList<File>> fileIDMap = new HashMap<String, ArrayList<File>>();
+        for (Entry<File, ImageInfo> stringImageInfoEntry : imageMap.entrySet()) {
+            File path = stringImageInfoEntry.getKey();
             ImageInfo image = stringImageInfoEntry.getValue();
             String ID = image.getID();
             if (fileIDMap.containsKey(ID)) {
-                ArrayList<String> list = fileIDMap.get(ID);
+                ArrayList<File> list = fileIDMap.get(ID);
                 list.add(path);
                 logger.debug("Find duplicate item:" + ID + ", count:" + list.size());
             } else {
-                ArrayList<String> list = new ArrayList<String>();
+                ArrayList<File> list = new ArrayList<File>();
                 list.add(path);
                 fileIDMap.put(ID, list);
+            }
+        }
+        for (Entry<String, ArrayList<File>> fileIDEntry : fileIDMap.entrySet()) {
+            if (fileIDEntry.getValue().size() > 1) {
+                Collections.sort(fileIDEntry.getValue(), duplicateComparator);
             }
         }
         return fileIDMap;

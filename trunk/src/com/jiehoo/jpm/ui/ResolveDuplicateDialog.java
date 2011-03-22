@@ -20,32 +20,37 @@ import java.util.Map;
  *
  */
 public class ResolveDuplicateDialog extends JDialog {
+    private List<Picture> pictures = new ArrayList<Picture>();
     private JTable duplicateTable;
     private JPanel previewPanel;
 
     static class Duplicateitem {
         String id;
-        String paths;
+        List<File> paths = new ArrayList<File>();
+
+        String getPaths() {
+            StringBuilder buffer = new StringBuilder();
+            //buffer.append("<html>");
+            for (File path : paths) {
+                buffer.append(path).append(";");
+            }
+            //buffer.append("</html>");
+            return buffer.toString();
+        }
     }
 
     static class DuplicatePictureTableModel extends AbstractTableModel {
         private List<Duplicateitem> data = new ArrayList<Duplicateitem>();
         private static String[] headers = Utils.resource.getString("text_duplicateHeaders").split(",");
 
-        public DuplicatePictureTableModel(HashMap<String, ArrayList<String>> duplicateMap) {
-            for (Map.Entry<String, ArrayList<String>> stringArrayListEntry : duplicateMap
+        public DuplicatePictureTableModel(HashMap<String, ArrayList<File>> duplicateMap) {
+            for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : duplicateMap
                     .entrySet()) {
-                ArrayList<String> list = stringArrayListEntry.getValue();
-                StringBuilder buffer = new StringBuilder();
+                ArrayList<File> list = stringArrayListEntry.getValue();
                 if (list.size() > 1) {
                     Duplicateitem item = new Duplicateitem();
-                    buffer.delete(0, buffer.length());
                     item.id = stringArrayListEntry.getKey();
-                    buffer.append(list.get(0));
-                    for (int i = 1; i < list.size(); i++) {
-                        buffer.append(";").append(list.get(i));
-                    }
-                    item.paths = buffer.toString();
+                    item.paths = stringArrayListEntry.getValue();
                     data.add(item);
                 }
             }
@@ -56,17 +61,36 @@ public class ResolveDuplicateDialog extends JDialog {
         }
 
         public int getColumnCount() {
-            return 2;
+            return headers.length;
         }
 
         public Object getValueAt(int rowIndex, int columnIndex) {
             Duplicateitem item = data.get(rowIndex);
-            return columnIndex == 0 ? item.id : item.paths;
+            switch (columnIndex) {
+                case 0:
+                    return rowIndex + 1;
+                case 1:
+                    return item.id;
+                case 2:
+                    return item.getPaths();
+                case 3:
+                    return item.paths.size();
+                default:
+                    return null;
+            }
+        }
+
+        public Duplicateitem getRow(int rowIndex) {
+            return data.get(rowIndex);
         }
 
         @Override
         public String getColumnName(int column) {
             return headers[column];
+        }
+
+        public void removeRow(int rowIndex) {
+            data.remove(rowIndex);
         }
     }
 
@@ -77,48 +101,91 @@ public class ResolveDuplicateDialog extends JDialog {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.getViewport().add(duplicateTable);
         getContentPane().add(scrollPane, "North");
-        ListSelectionModel listSelectionModel = duplicateTable.getSelectionModel();
+        final ListSelectionModel listSelectionModel = duplicateTable.getSelectionModel();
         listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listSelectionModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                int row = duplicateTable.getSelectedRow();
-                String paths = (String) ((DuplicatePictureTableModel) duplicateTable.getModel()).getValueAt(row, 1);
-                String[] files = paths.split(";");
-                previewDuplicate(files);
+                preview();
             }
         });
 
         previewPanel = new JPanel();
         previewPanel.setLayout(new GridLayout(1, 0));
-        previewPanel.setPreferredSize(new Dimension(160, 160));
-        getContentPane().add(previewPanel, "Center");
+        previewPanel.setPreferredSize(new Dimension(200, 200));
+        scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(previewPanel);
+        getContentPane().add(scrollPane, "Center");
         JPanel functionPanel = new JPanel();
         getContentPane().add(functionPanel, "South");
         JButton delete = new JButton(Utils.resource.getString("button_delete"));
         delete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            }
+                DuplicatePictureTableModel model = (DuplicatePictureTableModel) duplicateTable.getModel();
+                int selectedRow = duplicateTable.getSelectedRow();
+                Duplicateitem row = model.getRow(selectedRow);
+                for (Picture picture : pictures) {
+                    if (picture.isSelected()) {
+                        Workspace.getInstance().deletePicture(picture.getPicture());
+                        row.paths.remove(picture.getPicture());
+                        previewPanel.remove(picture);
+                    }
+                }
+                if (row.paths.size() <= 1) {
+                    model.removeRow(duplicateTable.getSelectedRow());
+                    previewPanel.removeAll();
+                    preview();
+                }
 
+                duplicateTable.updateUI();
+                previewPanel.updateUI();
+                UIManager.saveWorkspace();
+            }
         });
         functionPanel.add(delete);
+        JButton deleteAll = new JButton(Utils.resource.getString("button_deleteAll"));
+        deleteAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DuplicatePictureTableModel model = (DuplicatePictureTableModel) duplicateTable.getModel();
+                List<Duplicateitem> data = model.data;
+                for (int i = 0; i < data.size(); i++) {
+                    Duplicateitem item = data.get(i);
+                    for (int j = 1; j < item.paths.size(); j++) {
+                        Workspace.getInstance().deletePicture(item.paths.get(j));
+                    }
+                    data.remove(i);
+                    i--;
+                }
+                duplicateTable.updateUI();
+                previewPanel.updateUI();
+                UIManager.saveWorkspace();
+            }
+        });
+        functionPanel.add(deleteAll);
 
-        //setBounds(60, 60, 400, 400);
         pack();
         setLocationRelativeTo((MainFrame) UIManager.getComponent(UIManager.MAIN_FRAME));
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//        addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                setVisible(false);
-//            }
-//        });
     }
 
-    public void previewDuplicate(String[] files) {
-        previewPanel.removeAll();
-        for (String file : files) {
-            Picture picture = new Picture(new File(file));
-            previewPanel.add(picture);
-            previewPanel.updateUI();
-        }
+    public void preview() {
+        Duplicateitem row = ((DuplicatePictureTableModel) duplicateTable.getModel()).getRow(duplicateTable.getSelectedRow());
+        previewDuplicate(row.paths);
     }
+
+    public void previewDuplicate(List<File> files) {
+        previewPanel.removeAll();
+        pictures.clear();
+        Picture picture = new Picture(files.get(0));
+        previewPanel.add(picture);
+        pictures.add(picture);
+        for (int i = 1; i < files.size(); i++) {
+            picture = new Picture(files.get(i));
+            previewPanel.add(picture);
+            picture.setSelect(true);
+            pictures.add(picture);
+        }
+        previewPanel.updateUI();
+    }
+
+
 }

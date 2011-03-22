@@ -2,6 +2,7 @@ package com.jiehoo.jpm.ui;
 
 import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.Utils;
+import com.jiehoo.jpm.core.Path;
 import com.jiehoo.jpm.core.Workspace;
 
 import javax.swing.*;
@@ -29,9 +30,9 @@ public class NavigatePanel extends JScrollPane {
         getViewport().add(tree);
         tree.setExpandsSelectedPaths(true);
         tree.setCellRenderer(new MyTreeCellRenderer());
-        for (String path : Workspace.getInstance().getPaths()) {
-            MyMutableTreeNode node = new MyMutableTreeNode(path);
-            node.detectType(path);
+        for (Path path : Workspace.getInstance().getPaths().values()) {
+            MyMutableTreeNode node = new MyMutableTreeNode(path.getValue());
+            node.detectType(path.getValue());
             topNode.add(node);
         }
         tree.expandPath(new TreePath(topNode));

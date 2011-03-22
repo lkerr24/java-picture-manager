@@ -13,13 +13,51 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class ImageInfo {
+    public static final String UNKNOWN_CAMERA = "NA";
+    public static final String UNKNOWN_DATE = "1970:00:00 00:00:00";
+    public static final int UNKNOWN_INTEROP_OFFSET = 0;
+    public static final String UNKNOWN_EXPOSURE_TIME = "NA";
+    public static final String UNKNOWN_MAX_APERTURE = "NA";
+    public static final String UNKNOWN_ID = UNKNOWN_DATE + "_" + UNKNOWN_INTEROP_OFFSET + "_" + UNKNOWN_EXPOSURE_TIME + "_" + UNKNOWN_MAX_APERTURE + "_" + UNKNOWN_CAMERA;
     private static Logger logger = Logger.getLogger(ImageInfo.class);
-    private String date;
-    private String ID;
-    private HashSet<Integer> tags = new HashSet<Integer>();
     private int rank;
     private long size;
+    private int parentPath;
+    private String path;
     private String camera;
+    private String date;
+    private int interopOffset;
+    private String exposureTime;
+    private String maxAperture;
+    private HashSet<Integer> tags = new HashSet<Integer>();
+
+    public String getAbsolutePath() {
+        return Workspace.getInstance().getPaths().get(parentPath).getValue() + "/" + path;
+    }
+
+    public int getInteropOffset() {
+        return interopOffset;
+    }
+
+    public void setInteropOffset(int interopOffset) {
+        this.interopOffset = interopOffset;
+    }
+
+    public String getExposureTime() {
+        return exposureTime;
+    }
+
+    public void setExposureTime(String exposureTime) {
+        this.exposureTime = exposureTime;
+    }
+
+    public String getMaxAperture() {
+        return maxAperture;
+    }
+
+    public void setMaxAperture(String maxAperture) {
+        this.maxAperture = maxAperture;
+    }
 
     public long getSize() {
         return size;
@@ -46,11 +84,16 @@ public class ImageInfo {
     }
 
     public String getID() {
-        return ID;
-    }
-
-    public void setID(String id) {
-        ID = id;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(date);
+        buffer.append("_").append(interopOffset);
+        buffer.append("_").append(exposureTime);
+        buffer.append("_").append(maxAperture);
+        buffer.append("_").append(camera);
+        if (buffer.toString().equals(UNKNOWN_ID)) {
+            buffer.append("_").append(size);
+        }
+        return buffer.toString();
     }
 
     public HashSet<Integer> getTags() {
@@ -69,6 +112,22 @@ public class ImageInfo {
         this.rank = rank;
     }
 
+    public int getParentPath() {
+        return parentPath;
+    }
+
+    public void setParentPath(int parentPath) {
+        this.parentPath = parentPath;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public void addTag(int tag) {
         tags.add(tag);
     }
@@ -85,17 +144,11 @@ public class ImageInfo {
         JpegImageMetadata metadata;
         try {
             metadata = (JpegImageMetadata) Sanselan.getMetadata(file);
-            camera = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_MODEL, "Unknow");
-            date = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_DATE_TIME_ORIGINAL, "1970:00:00 00:00:00");
-            StringBuilder buffer = new StringBuilder();
-            buffer.append(date);
-            buffer.append("_").append(getPropertyValue(metadata, TiffConstants.EXIF_TAG_INTEROP_OFFSET, "NA"));
-            buffer.append("_").append(getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXPOSURE_TIME, "NA"));
-            buffer.append("_").append(getPropertyValue(metadata, TiffConstants.EXIF_TAG_MAX_APERTURE_VALUE, "NA"));
-            ID = buffer.toString();
-            if (ID.equals("1970:00:00 00:00:00_NA_NA_NA")) {
-                ID = ID + "_" + size;
-            }
+            camera = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_MODEL, UNKNOWN_CAMERA);
+            date = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_DATE_TIME_ORIGINAL, UNKNOWN_DATE);
+            interopOffset = (Integer) getPropertyValue(metadata, TiffConstants.EXIF_TAG_INTEROP_OFFSET, UNKNOWN_INTEROP_OFFSET);
+            exposureTime = getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXPOSURE_TIME, UNKNOWN_EXPOSURE_TIME).toString();
+            maxAperture = getPropertyValue(metadata, TiffConstants.EXIF_TAG_MAX_APERTURE_VALUE, UNKNOWN_MAX_APERTURE).toString();
         } catch (ImageReadException e) {
             logger.warn("Can't extract image information.", e);
         }

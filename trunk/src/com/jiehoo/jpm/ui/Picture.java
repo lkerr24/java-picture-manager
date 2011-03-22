@@ -3,6 +3,8 @@ package com.jiehoo.jpm.ui;
 import com.jiehoo.jpm.Constants;
 import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.JPMException;
+import com.jiehoo.jpm.core.ImageInfo;
+import com.jiehoo.jpm.core.Workspace;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -44,12 +46,18 @@ public class Picture extends JLabel {
             if (!picture.isPicture && e.getClickCount() == 2) {
                 e.consume();
                 ((NavigatePanel) UIManager.getComponent(UIManager.NAVIGATE_PANEL)).selectChild(picture.getName());
+                return;
+            } else if (e.isControlDown()) {
+                picture.changeSelected();
+                picture.setBorder();
+            } else {
+                MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
+                mainPanel.clearSelect();
+                picture.changeSelected();
+                picture.setBorder();
             }
-            picture.changeSelected();
-            picture.setBorder();
             TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
             tagsPanel.reset();
-
         }
     };
 
@@ -66,6 +74,7 @@ public class Picture extends JLabel {
             isPicture = true;
             try {
                 setIcon(new ImageIcon(ImageManager.getThumbnails(file)));
+                setToolTipText(getDescription(file));
             } catch (Exception e) {
                 logger.warn("Can't read image:" + file, e);
                 setIcon(new ImageIcon(errorImage));
@@ -79,6 +88,7 @@ public class Picture extends JLabel {
         isPicture = true;
         try {
             setIcon(new ImageIcon(ImageManager.getImage(file, width, height)));
+            setToolTipText(getDescription(file));
         } catch (JPMException e) {
             logger.warn("Can't read image:" + file, e);
             setIcon(new ImageIcon(errorImage));
@@ -86,11 +96,24 @@ public class Picture extends JLabel {
         init();
     }
 
+    private String getDescription(File path) {
+        StringBuilder buffer = new StringBuilder();
+        ImageInfo image = Workspace.getInstance().getImage(path);
+        buffer.append("<html>");
+        buffer.append("Path:").append(path).append("<br/>");
+        buffer.append("Size:").append(image.getSize()).append("<br/>");
+        buffer.append("Date:").append(image.getDate()).append("<br/>");
+        buffer.append("Rank:").append(image.getRank()).append("<br/>");
+        buffer.append("</html>");
+        return buffer.toString();
+    }
+
     private void setBorder() {
         if (selected) {
             if (selectedBorder == null) {
                 selectedBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.blue, 2), file.getName());
                 selectedBorder.setTitleJustification(TitledBorder.CENTER);
+                selectedBorder.setTitlePosition(TitledBorder.BOTTOM);
             }
             setBorder(selectedBorder);
         } else {
@@ -98,9 +121,15 @@ public class Picture extends JLabel {
                 unselectedBorder = BorderFactory.createTitledBorder(
                         BorderFactory.createLineBorder(Color.black, 2), file.getName());
                 unselectedBorder.setTitleJustification(TitledBorder.CENTER);
+                unselectedBorder.setTitlePosition(TitledBorder.BOTTOM);
             }
             setBorder(unselectedBorder);
         }
+    }
+
+    public void setSelect(boolean selected) {
+        this.selected = selected;
+        setBorder();
     }
 
     public boolean isSelected() {
@@ -111,8 +140,8 @@ public class Picture extends JLabel {
         return isPicture;
     }
 
-    public String getPicturePath() {
-        return file.getAbsolutePath();
+    public File getPicture() {
+        return file;
     }
 
     private void changeSelected() {

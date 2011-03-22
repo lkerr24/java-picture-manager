@@ -1,7 +1,5 @@
 package com.jiehoo.jpm;
 
-import com.jiehoo.jpm.core.DirectoryFilter;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Locale;
@@ -23,11 +21,15 @@ public class Utils {
         return Preferences.userRoot().node("jpm");
     }
 
-    public static FileFilter dirFilter = new DirectoryFilter();
+    public static FileFilter dirFilter = new FileFilter() {
+        public boolean accept(File dir) {
+            return (!dir.getName().startsWith(".")) && dir.isDirectory();
+        }
+    };
 
     public static FileFilter fileTreeFilter = new FileFilter() {
         public boolean accept(File dir) {
-            return (dir.isDirectory() && !dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) || (dir.isFile() && dir.getName().toLowerCase().endsWith(".jpg"));
+            return (!dir.getName().startsWith(".")) && (dir.isDirectory() && !dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) || (dir.isFile() && dir.getName().toLowerCase().endsWith(".jpg"));
         }
     };
 }
