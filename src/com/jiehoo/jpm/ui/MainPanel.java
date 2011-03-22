@@ -24,10 +24,6 @@ public class MainPanel extends JSplitPane {
         super(JSplitPane.VERTICAL_SPLIT);
         UIManager.setComponent(UIManager.MAIN_PANEL, this);
         this.setResizeWeight(0.1);
-        picturesPanel.setLayout(new GridLayout(0, 8, 10, 10));
-        for (Picture picture : pictures) {
-            picturesPanel.add(picture);
-        }
         TagsPanel tagsPanel = new TagsPanel();
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.getViewport().add(tagsPanel);
@@ -44,12 +40,23 @@ public class MainPanel extends JSplitPane {
     public void viewPictures(File[] files) {
         cardLayout.show(cardPanel, PICTURES_VIEW);
         currentCard = PICTURES_VIEW;
+        int columns = getWidth() / 200;
+        if (columns == 0) {
+            columns = 1;
+        }
+        picturesPanel.setLayout(new GridLayout(0, columns, 10, 10));
         for (File f : files) {
             Picture picture = new Picture(f);
             pictures.add(picture);
             picturesPanel.add(picture);
         }
         updateUI();
+    }
+
+    public void clearSelect() {
+        for (Picture picture : pictures) {
+            picture.setSelect(false);
+        }
     }
 
     public void reset() {
@@ -71,13 +78,13 @@ public class MainPanel extends JSplitPane {
         if (currentCard.equals(PICTURES_VIEW)) {
             for (Picture picture : pictures) {
                 if (picture.isSelected() && picture.isPicture()) {
-                    Workspace.getInstance().applyTag(picture.getPicturePath(), tagID, remove);
+                    Workspace.getInstance().applyTag(picture.getPicture(), tagID, remove);
                 }
             }
         } else {
             Picture picture = (Picture) picturePanel.getComponent(0);
             if (picture.isSelected() && picture.isPicture()) {
-                Workspace.getInstance().applyTag(picture.getPicturePath(), tagID, remove);
+                Workspace.getInstance().applyTag(picture.getPicture(), tagID, remove);
             }
         }
         UIManager.saveWorkspace();
@@ -87,13 +94,13 @@ public class MainPanel extends JSplitPane {
         if (currentCard.equals(PICTURES_VIEW)) {
             for (Picture picture : pictures) {
                 if (picture.isSelected() && picture.isPicture()) {
-                    Workspace.getInstance().applyRank(picture.getPicturePath(), rank);
+                    Workspace.getInstance().applyRank(picture.getPicture(), rank);
                 }
             }
         } else {
             Picture picture = (Picture) picturePanel.getComponent(0);
             if (picture.isSelected() && picture.isPicture()) {
-                Workspace.getInstance().applyRank(picture.getPicturePath(), rank);
+                Workspace.getInstance().applyRank(picture.getPicture(), rank);
             }
         }
         UIManager.saveWorkspace();
@@ -103,9 +110,9 @@ public class MainPanel extends JSplitPane {
         reset();
         cardLayout.show(cardPanel, PICTURES_VIEW);
         currentCard = PICTURES_VIEW;
-        List<Map.Entry<String, ImageInfo>> images = Workspace.getInstance().getImages(ranks, tags);
-        for (Map.Entry<String, ImageInfo> image : images) {
-            Picture picture = new Picture(new File(image.getKey()));
+        List<Map.Entry<File, ImageInfo>> images = Workspace.getInstance().getImages(ranks, tags);
+        for (Map.Entry<File, ImageInfo> image : images) {
+            Picture picture = new Picture(image.getKey());
             pictures.add(picture);
             picturesPanel.add(picture);
         }

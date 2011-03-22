@@ -17,14 +17,20 @@ public class TagButton extends JToggleButton {
     private static ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             AbstractButton abstractButton = (AbstractButton) e.getSource();
-            boolean selected = abstractButton.getModel().isSelected();
-            if (selected) {
-                abstractButton.setBorder(loweredBoder);
-            } else {
-                abstractButton.setBorder(raisedBorder);
-            }
+            abstractButton.setSelected(abstractButton.isSelected());
         }
     };
+
+    @Override
+    public void setSelected(boolean b) {
+        super.setSelected(b);
+        boolean selected = isSelected();
+        if (selected) {
+            setBorder(loweredBoder);
+        } else {
+            setBorder(raisedBorder);
+        }
+    }
 
     private Tag tag;
 

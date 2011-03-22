@@ -63,6 +63,7 @@ public class MainFrame extends JFrame {
         contentPane.add(toolbar, "North");
         contentPane.add(splitPane, "Center");
         initAction();
+        scan();
     }
 
     private void initFrame() {
@@ -145,6 +146,19 @@ public class MainFrame extends JFrame {
                 + name));
     }
 
+    private void scan() {
+        Thread scanThread = new Thread() {
+            public void run() {
+                try {
+                    Workspace.getInstance().scan(false);
+                } catch (IOException e) {
+                    UIManager.reportError("Scan workspace error.", e);
+                }
+                UIManager.saveWorkspace();
+            }
+        };
+        scanThread.start();
+    }
 
     private void addPath() {
         final JFileChooser fileChooser = new JFileChooser();
@@ -160,17 +174,7 @@ public class MainFrame extends JFrame {
             if (isValidNewPath) {
                 navigatePanel.addNode(file.getAbsolutePath());
                 UIManager.saveWorkspace();
-                Thread scanThread = new Thread() {
-                    public void run() {
-                        try {
-                            Workspace.getInstance().scan(false);
-                        } catch (IOException e) {
-                            UIManager.reportError("Scan workspace error.", e);
-                        }
-                        UIManager.saveWorkspace();
-                    }
-                };
-                scanThread.start();
+                scan();
             }
         }
     }
