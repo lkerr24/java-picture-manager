@@ -1,5 +1,6 @@
 package com.jiehoo.jpm.ui;
 
+import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.core.ImageInfo;
 import com.jiehoo.jpm.core.Workspace;
 
@@ -29,7 +30,12 @@ public class MainPanel extends JSplitPane {
         scrollPane.getViewport().add(tagsPanel);
         setLeftComponent(scrollPane);
         scrollPane = new JScrollPane();
-        scrollPane.getViewport().add(picturesPanel);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(picturesPanel);
+        //picturesPanel.setBorder(LineBorder.createBlackLineBorder());
+        panel.add(Box.createVerticalGlue());
+        scrollPane.getViewport().add(panel);
         cardPanel.setLayout(cardLayout);
         cardPanel.add(scrollPane, PICTURES_VIEW);
         cardPanel.add(picturePanel, PICTURE_VIEW);
@@ -117,5 +123,36 @@ public class MainPanel extends JSplitPane {
             picturesPanel.add(picture);
         }
         updateUI();
+    }
+
+    public void exportPictures(String path, int percent) {
+        if (currentCard.equals(PICTURES_VIEW)) {
+            for (Picture picture : pictures) {
+                if (picture.isSelected() && picture.isPicture()) {
+                    ImageManager.resizeImage(picture.getPicture(), ((float) percent) / 100, new File(path, picture.getName()));
+                }
+            }
+        } else {
+            Picture picture = (Picture) picturePanel.getComponent(0);
+            if (picture.isSelected() && picture.isPicture()) {
+                ImageManager.resizeImage(picture.getPicture(), ((float) percent) / 100, new File(path, picture.getName()));
+            }
+        }
+    }
+
+    public boolean hasSelectedPictures() {
+        if (currentCard.equals(PICTURES_VIEW)) {
+            for (Picture picture : pictures) {
+                if (picture.isSelected() && picture.isPicture()) {
+                    return true;
+                }
+            }
+        } else {
+            Picture picture = (Picture) picturePanel.getComponent(0);
+            if (picture.isSelected() && picture.isPicture()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

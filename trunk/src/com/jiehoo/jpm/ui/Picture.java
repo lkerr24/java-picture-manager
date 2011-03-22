@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -111,15 +110,14 @@ public class Picture extends JLabel {
     private void setBorder() {
         if (selected) {
             if (selectedBorder == null) {
-                selectedBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.blue, 2), file.getName());
+                selectedBorder = BorderFactory.createTitledBorder(UIManager.selectedBorder, file.getName());
                 selectedBorder.setTitleJustification(TitledBorder.CENTER);
                 selectedBorder.setTitlePosition(TitledBorder.BOTTOM);
             }
             setBorder(selectedBorder);
         } else {
             if (unselectedBorder == null) {
-                unselectedBorder = BorderFactory.createTitledBorder(
-                        BorderFactory.createLineBorder(Color.black, 2), file.getName());
+                unselectedBorder = BorderFactory.createTitledBorder(UIManager.notSelectedBorder, file.getName());
                 unselectedBorder.setTitleJustification(TitledBorder.CENTER);
                 unselectedBorder.setTitlePosition(TitledBorder.BOTTOM);
             }

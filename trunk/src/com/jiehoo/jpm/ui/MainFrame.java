@@ -1,6 +1,7 @@
 package com.jiehoo.jpm.ui;
 
 import com.jiehoo.jpm.Utils;
+import com.jiehoo.jpm.core.DuplicateItem;
 import com.jiehoo.jpm.core.Workspace;
 import org.jr.swing.JDynamicButton;
 import org.jr.swing.MenuItemProperty;
@@ -28,20 +29,21 @@ public class MainFrame extends JFrame {
     MainPanel mainPanel;
 
     JDynamicButton addPathButton;
-    JDynamicButton scanButton;
+    JDynamicButton searchButton;
     JDynamicButton checkDuplicateButton;
     JDynamicButton viewSlidesButton;
     JDynamicButton exportPicturesButton;
     ArrayList<JDynamicButton> toolbarButtons = new ArrayList<JDynamicButton>();
 
     JMenuItem addPathMenuItem;
-    JMenuItem scanMenuItem;
+    JMenuItem searchMenuItem;
     JMenuItem checkDuplicateMenuItem;
     JMenuItem viewSlidesMenuItem;
     JMenuItem exportPicturesMenuItem;
 
     SearchDialog searchDialog;
     ResolveDuplicateDialog resolveDuplicateDialog;
+    ExportDialog exportDialog;
 
     public MainFrame() {
         init();
@@ -86,11 +88,14 @@ public class MainFrame extends JFrame {
         addPathMenuItem.addActionListener(addPathAction);
         addPathButton.addActionListener(addPathAction);
         SearchAction searchAction = new SearchAction();
-        scanMenuItem.addActionListener(searchAction);
-        scanButton.addActionListener(searchAction);
+        searchMenuItem.addActionListener(searchAction);
+        searchButton.addActionListener(searchAction);
         CheckDuplicateAction checkDuplicateAction = new CheckDuplicateAction();
         checkDuplicateMenuItem.addActionListener(checkDuplicateAction);
         checkDuplicateButton.addActionListener(checkDuplicateAction);
+        ExportAction exportAction = new ExportAction();
+        exportPicturesMenuItem.addActionListener(exportAction);
+        exportPicturesButton.addActionListener(exportAction);
     }
 
     private void createMenubar() {
@@ -100,8 +105,8 @@ public class MainFrame extends JFrame {
         addPathMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(
                 Utils.resource.getString("menuitem_addPath")), menu);
         menu = createTopMenu("memu_operation");
-        scanMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(Utils.resource
-                .getString("menuitem_scan")), menu);
+        searchMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(Utils.resource
+                .getString("menuitem_search")), menu);
         checkDuplicateMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(
                 Utils.resource.getString("menuitem_checkDuplicate")), menu);
         viewSlidesMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(
@@ -119,11 +124,11 @@ public class MainFrame extends JFrame {
 
     private void createToolbar() {
         toolbar = new JToolBar();
-        addPathButton = createToolbarButton("button_addPath");
-        scanButton = createToolbarButton("button_scan");
-        checkDuplicateButton = createToolbarButton("button_checkDuplicate");
-        viewSlidesButton = createToolbarButton("button_viewSlides");
-        exportPicturesButton = createToolbarButton("button_exportPictures");
+        addPathButton = createToolbarButton("toolbarbutton_addPath");
+        searchButton = createToolbarButton("toolbarbutton_search");
+        checkDuplicateButton = createToolbarButton("toolbarbutton_deduplicate");
+        viewSlidesButton = createToolbarButton("toolbarbutton_viewSlides");
+        exportPicturesButton = createToolbarButton("toolbarbutton_exportPictures");
     }
 
     private JDynamicButton createToolbarButton(String key) {
@@ -161,14 +166,8 @@ public class MainFrame extends JFrame {
     }
 
     private void addPath() {
-        final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-
-        int returnVal = fileChooser.showOpenDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
+        File file = UIManager.chooseDirectory();
+        if (file != null) {
             boolean isValidNewPath = Workspace.getInstance().addPath(
                     file.getAbsolutePath());
             if (isValidNewPath) {
@@ -187,8 +186,24 @@ public class MainFrame extends JFrame {
     }
 
     private void checkDuplicate() {
-        resolveDuplicateDialog = new ResolveDuplicateDialog();
-        resolveDuplicateDialog.setVisible(true);
+        java.util.List<DuplicateItem> duplicates = Workspace.getInstance().getDuplicates();
+        if (duplicates.size() == 0) {
+            JOptionPane.showMessageDialog(this, Utils.resource.getString("message_noDuplicate"));
+        } else {
+            resolveDuplicateDialog = new ResolveDuplicateDialog(duplicates);
+            resolveDuplicateDialog.setVisible(true);
+        }
+    }
+
+    private void export() {
+        if (exportDialog == null) {
+            exportDialog = new ExportDialog();
+        }
+        if (mainPanel.hasSelectedPictures()) {
+            exportDialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, Utils.resource.getString("message_noSelectedPictures"));
+        }
     }
 
 
@@ -207,6 +222,12 @@ public class MainFrame extends JFrame {
     class CheckDuplicateAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             checkDuplicate();
+        }
+    }
+
+    class ExportAction implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            export();
         }
     }
 }
