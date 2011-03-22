@@ -50,7 +50,7 @@ public class UIManager {
     }
 
     public static File chooseDirectory() {
-        final JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
 

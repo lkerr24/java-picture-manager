@@ -73,7 +73,7 @@ public class MainPanel extends JSplitPane {
     public void viewPicture(File file) {
         cardLayout.show(cardPanel, PICTURE_VIEW);
         currentCard = PICTURE_VIEW;
-        Picture picture = new Picture(file, picturePanel.getWidth(), picturePanel.getHeight());
+        Picture picture = new Picture(file, picturePanel.getWidth(), picturePanel.getHeight() - 30);
         picturePanel.removeAll();
         picturePanel.add(picture);
         updateUI();
