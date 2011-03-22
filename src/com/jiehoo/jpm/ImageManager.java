@@ -43,21 +43,21 @@ public class ImageManager {
         return resizeImage(originalImage, targetWidth, targetHeight);
     }
 
-    public static void resizeImage(File file, int width, int height, String output) {
+    public static void resizeImage(File file, int width, int height, File output) {
         try {
-            ImageIO.write(getImage(file, width, height), getFormat(output), new File(output));
+            ImageIO.write(getImage(file, width, height), getFormat(output.getName()), output);
         } catch (IOException e) {
             throw new JPMException("Can't read image:" + file.getAbsolutePath() + " or write to:" + output, e);
         }
     }
 
-    public static void resizeImage(File file, float percent, String output) {
+    public static void resizeImage(File file, float percent, File output) {
         BufferedImage originalImage;
         try {
             originalImage = ImageIO.read(file);
             int width = (int) (originalImage.getWidth() * percent);
             int height = (int) (originalImage.getHeight() * percent);
-            ImageIO.write(resizeImage(originalImage, width, height), getFormat(output), new File(output));
+            ImageIO.write(resizeImage(originalImage, width, height), getFormat(output.getName()), output);
         } catch (IOException e) {
             throw new JPMException("Can't read image:" + file.getAbsolutePath() + " or write to:" + output, e);
         }

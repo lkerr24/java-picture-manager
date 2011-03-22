@@ -2,6 +2,7 @@ package com.jiehoo.jpm;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -20,6 +21,12 @@ public class Utils {
     public static Preferences GetPreferences() {
         return Preferences.userRoot().node("jpm");
     }
+
+    public static FilenameFilter fileFilter = new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+            return name.toLowerCase().endsWith(".jpg");
+        }
+    };
 
     public static FileFilter dirFilter = new FileFilter() {
         public boolean accept(File dir) {

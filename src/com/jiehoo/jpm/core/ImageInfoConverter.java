@@ -53,7 +53,7 @@ public class ImageInfoConverter implements Converter {
         image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN_EXPOSURE_TIME));
         image.setMaxAperture(getAttribute(reader, "maxAperture", ImageInfo.UNKNOWN_MAX_APERTURE));
         String ts = getAttribute(reader, "tags", "");
-        if (!ts.isEmpty()) {
+        if (!ts.equals("")) {
             String[] tags = ts.split(",");
             for (String tag : tags) {
                 image.addTag(Integer.parseInt(tag));

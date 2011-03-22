@@ -185,6 +185,11 @@ public class NavigatePanel extends JScrollPane {
                 setIcon(pictureIcon);
             }
             setText((String) node.getUserObject());
+            if (selected) {
+                setBorder(UIManager.selectedBorder);
+            } else {
+                setBorder(null);
+            }
             return this;
         }
     }

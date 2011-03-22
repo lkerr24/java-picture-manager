@@ -23,6 +23,7 @@ public class SearchDialog extends JDialog {
     private ArrayList<TagButton> tagButtons = new ArrayList<TagButton>();
 
     public SearchDialog() {
+        setModal(true);
         getContentPane().setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         panel.add(new JLabel(Utils.resource.getString("label_rank")));
@@ -98,9 +99,9 @@ public class SearchDialog extends JDialog {
         });
         getContentPane().add(panel, "South");
 
+        setTitle(Utils.resource.getString("title_search"));
         pack();
         setResizable(false);
         setLocationRelativeTo((MainFrame) UIManager.getComponent(UIManager.MAIN_FRAME));
-
     }
 }

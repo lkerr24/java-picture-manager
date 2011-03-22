@@ -54,11 +54,11 @@ public class Workspace {
         xstream.registerConverter(new ImageInfoConverter());
     }
 
-    public void setTagIndex(int tagIndex) {
+    protected void setTagIndex(int tagIndex) {
         this.tagIndex = tagIndex;
     }
 
-    public void setPathIndex(int pathIndex) {
+    protected void setPathIndex(int pathIndex) {
         this.pathIndex = pathIndex;
     }
 
@@ -79,7 +79,6 @@ public class Workspace {
         if (!file.delete()) {
             logger.warn("Can't delete picture:" + file);
         }
-
     }
 
     protected static void setInstance(Workspace instance) {
@@ -89,12 +88,6 @@ public class Workspace {
     public HashMap<Integer, Tag> getTags() {
         return tags;
     }
-
-    private static FilenameFilter fileFilter = new FilenameFilter() {
-        public boolean accept(File dir, String name) {
-            return name.toLowerCase().endsWith(".jpg");
-        }
-    };
 
     protected Workspace(String outputPath) {
         this.outputPath = outputPath;
@@ -234,7 +227,7 @@ public class Workspace {
         if (!dir.exists() || dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) {
             return;
         }
-        File[] files = dir.listFiles(fileFilter);
+        File[] files = dir.listFiles(Utils.fileFilter);
         for (File file : files) {
             if (forceUpdate || !imageMap.containsKey(file)) {
                 ImageInfo image = new ImageInfo();
@@ -252,7 +245,7 @@ public class Workspace {
         }
     }
 
-    public HashMap<String, ArrayList<File>> getDuplicates() {
+    public List<DuplicateItem> getDuplicates() {
         HashMap<String, ArrayList<File>> fileIDMap = new HashMap<String, ArrayList<File>>();
         for (Entry<File, ImageInfo> stringImageInfoEntry : imageMap.entrySet()) {
             File path = stringImageInfoEntry.getKey();
@@ -273,7 +266,18 @@ public class Workspace {
                 Collections.sort(fileIDEntry.getValue(), duplicateComparator);
             }
         }
-        return fileIDMap;
+        List<DuplicateItem> result = new ArrayList<DuplicateItem>();
+        for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : fileIDMap
+                .entrySet()) {
+            ArrayList<File> list = stringArrayListEntry.getValue();
+            if (list.size() > 1) {
+                DuplicateItem item = new DuplicateItem();
+                item.setId(stringArrayListEntry.getKey());
+                item.setPaths(stringArrayListEntry.getValue());
+                result.add(item);
+            }
+        }
+        return result;
     }
 
     public void output() throws IOException {

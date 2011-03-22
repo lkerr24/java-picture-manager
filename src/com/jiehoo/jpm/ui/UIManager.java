@@ -4,7 +4,9 @@ import com.jiehoo.jpm.core.Workspace;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,9 @@ public class UIManager {
     public static final String MAIN_PANEL = "MAIN_PANEL";
     public static final String TAGS_PANEL = "TAGS_PANEL";
     public static final String NAVIGATE_PANEL = "NAVIGATE_PANEL";
+
+    public static Border notSelectedBorder = BorderFactory.createLineBorder(Color.black, 2);
+    public static Border selectedBorder = BorderFactory.createLineBorder(Color.blue, 2);
 
     public static void setComponent(String name, Object componenet) {
         components.put(name, componenet);
@@ -42,6 +47,19 @@ public class UIManager {
         } catch (IOException e) {
             reportError("Can't save workspace file.", e);
         }
+    }
+
+    public static File chooseDirectory() {
+        final JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        int returnVal = fileChooser.showOpenDialog((Component) getComponent(MAIN_FRAME));
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        }
+        return null;
     }
 
 
