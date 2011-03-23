@@ -2,8 +2,9 @@
 <project relativePaths="false" version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.iws" afterPath="$PROJECT_DIR$/JPM.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="JPM.iws" />
@@ -82,16 +83,18 @@
       <file leaf-file-name="MainPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="59" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="71" column="16" selection-start="2542" selection-end="2550" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Picture.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Picture.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="48" selection-start="1059" selection-end="1059" vertical-scroll-proportion="-0.10070671">
+            <state line="19" column="13" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -162,11 +165,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavigatePanel.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="NavigatePanel.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="177" column="18" selection-start="7293" selection-end="7293" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="212" column="9" selection-start="8376" selection-end="8376" vertical-scroll-proportion="2.1077738">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -236,6 +241,54 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="jpm" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="JPM" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="jpm" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="ui" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -444,7 +497,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1688" height="992" extended-state="7" />
+    <frame x="-4" y="-4" width="1688" height="992" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294621" sideWeight="0.5" order="3" side_tool="false" />
@@ -540,13 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="18" selection-start="7293" selection-end="7293" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.0">
@@ -582,13 +628,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="59" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/log4j.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="22" selection-start="866" selection-end="866" vertical-scroll-proportion="0.6972477">
@@ -614,8 +653,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="48" selection-start="1059" selection-end="1059" vertical-scroll-proportion="-0.10070671">
+        <state line="19" column="13" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="16" selection-start="2542" selection-end="2550" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="212" column="9" selection-start="8376" selection-end="8376" vertical-scroll-proportion="2.1077738">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
