@@ -13,6 +13,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -41,6 +43,23 @@ public class NavigatePanel extends JScrollPane {
                 TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
                 tagsPanel.reset();
                 selectNode((MyMutableTreeNode) e.getPath().getLastPathComponent());
+            }
+        });
+        tree.addMouseListener(new MouseListener() {
+            public void mousePressed(MouseEvent e) {
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                tree.requestFocusInWindow();
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
             }
         });
     }
@@ -186,9 +205,9 @@ public class NavigatePanel extends JScrollPane {
             }
             setText((String) node.getUserObject());
             if (selected) {
-                setBorder(UIManager.selectedBorder);
+                setForeground(Color.blue);
             } else {
-                setBorder(null);
+                setForeground(null);
             }
             return this;
         }

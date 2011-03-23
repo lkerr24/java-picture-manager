@@ -6,6 +6,9 @@ import com.jiehoo.jpm.core.Workspace;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,33 @@ public class MainPanel extends JSplitPane {
         cardPanel.add(picturePanel, PICTURE_VIEW);
         currentCard = PICTURES_VIEW;
         setRightComponent(cardPanel);
+        picturesPanel.addMouseListener(new MouseListener() {
+            public void mousePressed(MouseEvent e) {
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                picturesPanel.requestFocusInWindow();
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
+
+            public void mouseClicked(MouseEvent e) {
+            }
+        });
+        picturesPanel.getActionMap().put("selectAll", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                for (Picture picture : pictures) {
+                    picture.setSelect(true);
+                }
+                picturesPanel.updateUI();
+            }
+        });
+        InputMap inputMap = picturesPanel.getInputMap();
+        inputMap.put(KeyStroke.getKeyStroke("control A"), "selectAll");
     }
 
     public void viewPictures(File[] files) {
