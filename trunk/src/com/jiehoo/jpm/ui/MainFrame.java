@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -28,14 +27,13 @@ public class MainFrame extends JFrame {
     NavigatePanel navigatePanel;
     MainPanel mainPanel;
 
-    JDynamicButton addPathButton;
     JDynamicButton searchButton;
     JDynamicButton checkDuplicateButton;
     JDynamicButton viewSlidesButton;
     JDynamicButton exportPicturesButton;
     ArrayList<JDynamicButton> toolbarButtons = new ArrayList<JDynamicButton>();
 
-    JMenuItem addPathMenuItem;
+    JMenuItem exitMenuItem;
     JMenuItem searchMenuItem;
     JMenuItem checkDuplicateMenuItem;
     JMenuItem viewSlidesMenuItem;
@@ -84,9 +82,6 @@ public class MainFrame extends JFrame {
     }
 
     private void initAction() {
-        AddPathAction addPathAction = new AddPathAction();
-        addPathMenuItem.addActionListener(addPathAction);
-        addPathButton.addActionListener(addPathAction);
         SearchAction searchAction = new SearchAction();
         searchMenuItem.addActionListener(searchAction);
         searchButton.addActionListener(searchAction);
@@ -102,8 +97,8 @@ public class MainFrame extends JFrame {
         menubar = new JMenuBar();
         JMenu menu = createTopMenu("memu_file");
         // menu.setMnemonic(KeyEvent.VK_F);
-        addPathMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(
-                Utils.resource.getString("menuitem_addPath")), menu);
+        exitMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(
+                Utils.resource.getString("menuitem_exit")), menu);
         menu = createTopMenu("memu_operation");
         searchMenuItem = SwingUtil.createMenuItem(new MenuItemProperty(Utils.resource
                 .getString("menuitem_search")), menu);
@@ -124,7 +119,6 @@ public class MainFrame extends JFrame {
 
     private void createToolbar() {
         toolbar = new JToolBar();
-        addPathButton = createToolbarButton("toolbarbutton_addPath");
         searchButton = createToolbarButton("toolbarbutton_search");
         checkDuplicateButton = createToolbarButton("toolbarbutton_deduplicate");
         viewSlidesButton = createToolbarButton("toolbarbutton_viewSlides");
@@ -165,19 +159,6 @@ public class MainFrame extends JFrame {
         scanThread.start();
     }
 
-    private void addPath() {
-        File file = UIManager.chooseDirectory();
-        if (file != null) {
-            boolean isValidNewPath = Workspace.getInstance().addPath(
-                    file.getAbsolutePath());
-            if (isValidNewPath) {
-                navigatePanel.addNode(file.getAbsolutePath());
-                UIManager.saveWorkspace();
-                scan();
-            }
-        }
-    }
-
     private void search() {
         if (searchDialog == null) {
             searchDialog = new SearchDialog();
@@ -203,13 +184,6 @@ public class MainFrame extends JFrame {
             exportDialog.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, Utils.resource.getString("message_noSelectedPictures"));
-        }
-    }
-
-
-    class AddPathAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            addPath();
         }
     }
 

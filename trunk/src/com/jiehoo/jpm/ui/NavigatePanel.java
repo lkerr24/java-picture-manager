@@ -2,7 +2,6 @@ package com.jiehoo.jpm.ui;
 
 import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.Utils;
-import com.jiehoo.jpm.core.Path;
 import com.jiehoo.jpm.core.Workspace;
 
 import javax.swing.*;
@@ -27,16 +26,11 @@ public class NavigatePanel extends JScrollPane {
 
     public NavigatePanel() {
         UIManager.setComponent(UIManager.NAVIGATE_PANEL, this);
-        topNode = new MyMutableTreeNode(Utils.resource.getString("workspace"), true);
+        topNode = new MyMutableTreeNode(Workspace.getInstance().getOutputPath(), true);
         tree = new JTree(topNode);
         getViewport().add(tree);
         tree.setExpandsSelectedPaths(true);
         tree.setCellRenderer(new MyTreeCellRenderer());
-        for (Path path : Workspace.getInstance().getPaths().values()) {
-            MyMutableTreeNode node = new MyMutableTreeNode(path.getValue());
-            node.detectType(path.getValue());
-            topNode.add(node);
-        }
         tree.expandPath(new TreePath(topNode));
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
@@ -78,49 +72,43 @@ public class NavigatePanel extends JScrollPane {
     }
 
     public void selectNode(MyMutableTreeNode node) {
-        if (node != topNode) {
-            String path = getPath(node);
-            File file = new File(path);
-            if (file.isDirectory()) {
-                MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
-                mainPanel.reset();
-                File[] files = file.listFiles(Utils.fileTreeFilter);
-                if (files != null) {
+        String path = getPath(node);
+        File file = new File(path);
+        if (file.isDirectory()) {
+            MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
+            mainPanel.reset();
+            File[] files = file.listFiles(Utils.fileTreeFilter);
+            if (files != null) {
 
-                    if (!loadedNodes.contains(path)) {
-                        for (File f : files) {
-                            if (f.isDirectory() && f.getName().equalsIgnoreCase("thumbnails")) {
-                                continue;
-                            }
-                            MyMutableTreeNode childNode = new MyMutableTreeNode(f.getName());
-                            childNode.detectType(f.getAbsolutePath());
-                            node.add(childNode);
+                if (!loadedNodes.contains(path)) {
+                    for (File f : files) {
+                        if (f.isDirectory() && f.getName().equalsIgnoreCase("thumbnails")) {
+                            continue;
                         }
-                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
+                        MyMutableTreeNode childNode = new MyMutableTreeNode(f.getName());
+                        childNode.detectType(f.getAbsolutePath());
+                        node.add(childNode);
                     }
-                    mainPanel.viewPictures(files);
+                    //((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
                 }
-            } else {
-                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).viewPicture(file);
+                mainPanel.viewPictures(files);
             }
-            loadedNodes.add(path);
+        } else {
+            ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).viewPicture(file);
         }
+        loadedNodes.add(path);
         tree.expandPath(new TreePath(node.getPath()));
     }
 
     private static String getPath(MyMutableTreeNode node) {
         StringBuilder buffer = new StringBuilder();
         buffer.insert(0, (String) node.getUserObject());
-        while (!isRootPath(node)) {
+        while (node.getParent() != null) {
             node = (MyMutableTreeNode) node.getParent();
             buffer.insert(0, "\\");
             buffer.insert(0, node.getUserObject());
         }
         return buffer.toString();
-    }
-
-    private static boolean isRootPath(MyMutableTreeNode node) {
-        return node.getParent() != null && node.getParent().getParent() == null;
     }
 
     public void addNode(String dir) {

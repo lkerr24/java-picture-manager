@@ -21,6 +21,7 @@ public class TagsPanel extends JPanel {
     };
 
     public TagsPanel() {
+        setLayout(new BorderLayout());
         UIManager.setComponent(UIManager.TAGS_PANEL, this);
         JPanel panel = new JPanel();
         ActionListener rankActionListener = new ActionListener() {
@@ -37,22 +38,22 @@ public class TagsPanel extends JPanel {
             rabbitButton.addActionListener(rankActionListener);
             panel.add(rabbitButton);
         }
-        add(panel, "North");
+        add(panel, BorderLayout.PAGE_START);
 
         panel = new JPanel();
         panel.add(new JLabel(Utils.resource.getString("label_newTag")));
         final JTextField newTagField = new JTextField();
         newTagField.setColumns(20);
-        setLayout(new BorderLayout());
         panel.add(newTagField);
         JButton button = new JButton(Utils.resource.getString("button_newTag"));
         panel.add(button);
-        add(panel, "South");
+        add(panel, BorderLayout.PAGE_END);
         ActionListener tagActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Tag tag = Workspace.getInstance().createTag(
                         newTagField.getText());
                 addTag(tag);
+                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).applyTag(tag.getID(), true);
                 tagsPanel.updateUI();
                 newTagField.setText("");
                 UIManager.saveWorkspace();
@@ -63,7 +64,7 @@ public class TagsPanel extends JPanel {
 
         tagsPanel = new JPanel();
         tagsPanel.setLayout(new GridLayout(0, 10, 5, 5));
-        add(tagsPanel, "Center");
+        add(tagsPanel, BorderLayout.CENTER);
         HashMap<Integer, Tag> tags = Workspace.getInstance().getTags();
         for (Tag tag : tags.values()) {
             addTag(tag);

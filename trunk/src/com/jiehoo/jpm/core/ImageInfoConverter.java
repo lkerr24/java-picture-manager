@@ -18,7 +18,6 @@ public class ImageInfoConverter implements Converter {
             writer.addAttribute("date", image.getDate());
         if (!image.getCamera().equals(ImageInfo.UNKNOWN_CAMERA))
             writer.addAttribute("camera", image.getCamera());
-        writer.addAttribute("parentPath", image.getParentPath() + "");
         writer.addAttribute("path", image.getPath());
         if (image.getInteropOffset() != ImageInfo.UNKNOWN_INTEROP_OFFSET)
             writer.addAttribute("interopOffset", image.getInteropOffset() + "");
@@ -48,7 +47,6 @@ public class ImageInfoConverter implements Converter {
         image.setDate(getAttribute(reader, "date", ImageInfo.UNKNOWN_DATE));
         image.setCamera(getAttribute(reader, "camera", ImageInfo.UNKNOWN_CAMERA));
         image.setInteropOffset(Integer.parseInt(getAttribute(reader, "interopOffset", ImageInfo.UNKNOWN_INTEROP_OFFSET + "")));
-        image.setParentPath(Integer.parseInt(reader.getAttribute("parentPath")));
         image.setPath(reader.getAttribute("path"));
         image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN_EXPOSURE_TIME));
         image.setMaxAperture(getAttribute(reader, "maxAperture", ImageInfo.UNKNOWN_MAX_APERTURE));
