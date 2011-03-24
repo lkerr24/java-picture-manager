@@ -18,8 +18,6 @@ public class Workspace {
 
     private String outputPath;
     private int tagIndex;
-    private int pathIndex;
-    private HashMap<Integer, Path> paths = new HashMap<Integer, Path>();
     private HashMap<Integer, Tag> tags = new HashMap<Integer, Tag>();
     private HashMap<File, ImageInfo> imageMap = new HashMap<File, ImageInfo>();
     private static TagSortByUsedTimes usedTimesSorter = new TagSortByUsedTimes();
@@ -43,27 +41,16 @@ public class Workspace {
         xstream.alias("Workspace", Workspace.class);
         xstream.alias("image", ImageInfo.class);
         xstream.alias("tag", Tag.class);
-        xstream.alias("path", Path.class);
         xstream.useAttributeFor(Tag.class, "ID");
         xstream.useAttributeFor(Tag.class, "name");
         xstream.useAttributeFor(Tag.class, "lastUsedTime");
         xstream.useAttributeFor(Tag.class, "usedTimes");
-        xstream.useAttributeFor(Path.class, "ID");
-        xstream.useAttributeFor(Path.class, "value");
         xstream.registerConverter(new WorkspaceConverter());
         xstream.registerConverter(new ImageInfoConverter());
     }
 
     protected void setTagIndex(int tagIndex) {
         this.tagIndex = tagIndex;
-    }
-
-    protected void setPathIndex(int pathIndex) {
-        this.pathIndex = pathIndex;
-    }
-
-    public int getPathIndex() {
-        return pathIndex;
     }
 
     public String getOutputPath() {
@@ -198,31 +185,15 @@ public class Workspace {
         this.imageMap = imageMap;
     }
 
-    public boolean addPath(String path) {
-        //TODO check path already included in the old path and sub path
-        Path p = new Path();
-        pathIndex++;
-        p.setID(pathIndex);
-        p.setValue(path);
-        paths.put(pathIndex, p);
-        return true;
-    }
-
     public ImageInfo getImage(File path) {
         return imageMap.get(path);
     }
 
-    public HashMap<Integer, Path> getPaths() {
-        return paths;
-    }
-
     public void scan(boolean forceUpdate) throws IOException {
-        for (Path p : paths.values()) {
-            scan(p, new File(p.getValue()), forceUpdate);
-        }
+        scan(new File(outputPath), forceUpdate);
     }
 
-    private void scan(Path path, File dir, boolean forceUpdate) throws IOException {
+    private void scan(File dir, boolean forceUpdate) throws IOException {
         logger.info("Scan directory:" + dir.getAbsolutePath());
         if (!dir.exists() || dir.getName().equalsIgnoreCase(Constants.THUMBNAILS_DIRECTORY)) {
             return;
@@ -231,9 +202,8 @@ public class Workspace {
         for (File file : files) {
             if (forceUpdate || !imageMap.containsKey(file)) {
                 ImageInfo image = new ImageInfo();
-                image.setParentPath(path.getID());
-                image.setPath(file.getAbsolutePath().substring(path.getValue().length() + 1));
-                image.extractImageInfo(file.getAbsolutePath());
+                image.setPath(file.getAbsolutePath().substring(outputPath.length() + 1));
+                image.extractImageInfo(file);
                 imageMap.put(file, image);
             } else {
                 logger.debug("Scanned image:" + file.getAbsolutePath());
@@ -241,7 +211,7 @@ public class Workspace {
         }
         File[] dirs = dir.listFiles(Utils.dirFilter);
         for (File d : dirs) {
-            scan(path, d, forceUpdate);
+            scan(d, forceUpdate);
         }
     }
 
@@ -278,21 +248,6 @@ public class Workspace {
             }
         }
         return result;
-    }
-
-    public void output() throws IOException {
-        PrintStream writer = new PrintStream(new FileOutputStream(new File(
-                outputPath, "jpm.csv")), false, "UTF8");
-        writer.print('\ufeff');
-        writer.print("File,Camera,Size,Date,ID\r\n");
-        /*
-           * writer.print(image.getFullPath()); writer.print(",");
-           * writer.print(image.getCamera()); writer.print(",");
-           * writer.print(image.getSize()); writer.print(",");
-           * writer.print(image.getDate()); writer.print(",");
-           * writer.print(image.getID()); writer.print("\r\n");
-           */
-        writer.close();
     }
 
     static class TagSortByUsedTimes implements Comparator<Tag> {

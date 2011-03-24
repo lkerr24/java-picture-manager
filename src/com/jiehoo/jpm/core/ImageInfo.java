@@ -22,7 +22,6 @@ public class ImageInfo {
     private static Logger logger = Logger.getLogger(ImageInfo.class);
     private int rank;
     private long size;
-    private int parentPath;
     private String path;
     private String camera;
     private String date;
@@ -32,7 +31,7 @@ public class ImageInfo {
     private HashSet<Integer> tags = new HashSet<Integer>();
 
     public String getAbsolutePath() {
-        return Workspace.getInstance().getPaths().get(parentPath).getValue() + "/" + path;
+        return Workspace.getInstance().getOutputPath() + "/" + path;
     }
 
     public int getInteropOffset() {
@@ -112,14 +111,6 @@ public class ImageInfo {
         this.rank = rank;
     }
 
-    public int getParentPath() {
-        return parentPath;
-    }
-
-    public void setParentPath(int parentPath) {
-        this.parentPath = parentPath;
-    }
-
     public String getPath() {
         return path;
     }
@@ -137,9 +128,8 @@ public class ImageInfo {
         tags.remove(tag);
     }
 
-    public void extractImageInfo(String fullPath) throws IOException {
-        logger.debug("Extract image info for:" + fullPath);
-        File file = new File(fullPath);
+    public void extractImageInfo(File file) throws IOException {
+        logger.debug("Extract image info for:" + file);
         size = file.length();
         JpegImageMetadata metadata;
         try {
