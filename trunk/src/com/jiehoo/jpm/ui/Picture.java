@@ -66,8 +66,8 @@ public class Picture extends JLabel {
     };
 
     static {
-        folderImage = ImageManager.getImage(ImageManager.getImageFile("image_folder"), Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
-        errorImage = ImageManager.getImage(ImageManager.getImageFile("image_error"), Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
+        folderImage = ImageManager.getImageFromContainer("image_folder", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
+        errorImage = ImageManager.getImageFromContainer("image_error", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
     }
 
     public Picture(File file) {

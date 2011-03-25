@@ -24,13 +24,13 @@ public class JPM {
                 System.exit(1);
             }
         }
-        preference.putBoolean("is_running", true);
+        preference.putBoolean(Constants.IS_RUNNING, true);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                preference.putBoolean("is_running", false);
+                preference.putBoolean(Constants.IS_RUNNING, false);
             }
         });
-        String output = preference.get("output", null);
+        String output = preference.get(Constants.LAST_WORKSPACE, null);
         if (output == null) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -41,7 +41,7 @@ public class JPM {
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 output = fileChooser.getSelectedFile().getAbsolutePath();
-                preference.put("output", output);
+                preference.put(Constants.LAST_WORKSPACE, output);
             }
         }
         try {
@@ -59,7 +59,7 @@ public class JPM {
     }
 
     private static boolean isExistedInstance() {
-        return preference.getBoolean("is_running", false);
+        return preference.getBoolean(Constants.IS_RUNNING, false);
     }
 
     private static boolean canRun() {
@@ -78,7 +78,7 @@ public class JPM {
         Package testPackage = testClass.getPackage();
         if (testPackage == null) {
             System.err
-                    .println("Pls use JRE compatible with SUN JDK 1.4 or later to run this program");
+                    .println("Pls use JRE compatible with JDK 1.5 or later to run this program");
             return false;
         } else if (!testPackage.isCompatibleWith("1.5")) {
             System.err.println("JDK Vendor:"
