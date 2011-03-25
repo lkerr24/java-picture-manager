@@ -3,15 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/TagsPanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/TagsPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources.properties" afterPath="$PROJECT_DIR$/src/resources.properties" />
-      <change type="DELETED" beforePath="D:\Workspace\JPM\src\com\jiehoo\jpm\core\Path.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jpm.mf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.iws" afterPath="$PROJECT_DIR$/JPM.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jpm.properties" afterPath="$PROJECT_DIR$/jpm.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jpm.bat" afterPath="$PROJECT_DIR$/jpm.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JPM.ipr" afterPath="$PROJECT_DIR$/JPM.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jpm.sh" afterPath="$PROJECT_DIR$/jpm.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jpm.xml" afterPath="$PROJECT_DIR$/jpm.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" afterPath="$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="JPM.iws" />
@@ -87,57 +91,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainPanel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="16" selection-start="3729" selection-end="3729" vertical-scroll-proportion="0.33175355">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Workspace.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="0" selection-start="5705" selection-end="5705" vertical-scroll-proportion="0.0">
+            <state line="189" column="6" selection-start="6187" selection-end="6187" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkspaceConverter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java">
+      <file leaf-file-name="XStream.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/xstream-1.3.1.jar!/com/thoughtworks/xstream/XStream.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="34" selection-start="2143" selection-end="2143" vertical-scroll-proportion="0.0">
+            <state line="43" column="11" selection-start="2654" selection-end="2654" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TagsPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/TagsPanel.java">
+      <file leaf-file-name="jpm.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jpm.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="79" selection-start="2327" selection-end="2327" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Container.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://D:/Programs/jdk/jdk1.5.0.11/src.zip!/java/awt/Container.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="897" column="16" selection-start="36398" selection-end="36398" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="resources.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="44" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
+            <state line="28" column="79" selection-start="883" selection-end="883" vertical-scroll-proportion="-0.5167785">
               <folding />
             </state>
           </provider>
@@ -146,28 +121,10 @@
       <file leaf-file-name="NavigatePanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0">
+            <state line="172" column="89" selection-start="6616" selection-end="6616" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageInfo.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="0" selection-start="3449" selection-end="3449" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageInfoConverter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="13" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -175,10 +132,69 @@
       <file leaf-file-name="MainFrame.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="43" selection-start="5903" selection-end="5903" vertical-scroll-proportion="0.0">
+            <state line="141" column="21" selection-start="5376" selection-end="5376" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ImageManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="161" column="61" selection-start="6787" selection-end="6787" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1301033482664" expanded="true" signature="1535:2000" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="2077:2367" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="2451:2723" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="2799:3306" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="3359:3428" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="3487:3596" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="3697:3948" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="4047:4141" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="4223:4349" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="4401:6445" placeholder="{...}" />
+                <marker date="1301033482664" expanded="true" signature="6503:6664" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JPM.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/JPM.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="22" selection-start="8" selection-end="22" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jpm.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jpm.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorkspaceConverter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="13" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -531,22 +547,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1688" height="992" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294621" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18382353" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.67156863" order="1" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4154412" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40931374" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24264705" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30147058" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31985295" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22303921" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.80759805" order="1" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997555" sideWeight="0.5" order="0" side_tool="false" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22721675" sideWeight="0.58210784" order="0" side_tool="false" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22721675" sideWeight="0.67156863" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292978" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" />
@@ -589,105 +605,16 @@
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
+    <buildFile url="file://$PROJECT_DIR$/jpm.xml">
+      <antCommandLine value="" />
+      <runInBackground value="true" />
+      <targetFilters />
+      <treeView value="true" />
+      <verbose value="true" />
+      <viewClosedWhenNoErrors value="false" />
+    </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://D:/Programs/jdk/jdk1.5.0.11/src.zip!/java/util/prefs/Preferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="495" column="27" selection-start="21619" selection-end="21619" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/UIManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="8" selection-start="1615" selection-end="1615" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log4j.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="22" selection-start="866" selection-end="866" vertical-scroll-proportion="0.6972477">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/JPM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="5" selection-start="3264" selection-end="3264" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jpm.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="5" selection-start="607" selection-end="607" vertical-scroll-proportion="71.61539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/resources.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="44" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="0" selection-start="3449" selection-end="3449" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/ImageInfoConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="43" selection-start="5903" selection-end="5903" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="0" selection-start="5705" selection-end="5705" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="34" selection-start="2143" selection-end="2143" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/Programs/jdk/jdk1.5.0.11/src.zip!/java/awt/Container.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="897" column="16" selection-start="36398" selection-end="36398" vertical-scroll-proportion="0.0">
@@ -697,17 +624,129 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/TagsPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="79" selection-start="2327" selection-end="2327" vertical-scroll-proportion="0.0">
+        <state line="55" column="79" selection-start="2326" selection-end="2326" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1300960810366" expanded="true" signature="2050:2496" placeholder="{...}" />
+            <marker date="1300960810366" expanded="true" signature="2107:2486" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/Picture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="56" selection-start="817" selection-end="817" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="16" selection-start="3729" selection-end="3729" vertical-scroll-proportion="0.33175355">
+        <state line="108" column="19" selection-start="3666" selection-end="3666" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jpm.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/JPM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="22" selection-start="8" selection-end="22" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ImageManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="161" column="61" selection-start="6787" selection-end="6787" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1301033482664" expanded="true" signature="1535:2000" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="2077:2367" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="2451:2723" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="2799:3306" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="3359:3428" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="3487:3596" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="3697:3948" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="4047:4141" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="4223:4349" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="4401:6445" placeholder="{...}" />
+            <marker date="1301033482664" expanded="true" signature="6503:6664" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/NavigatePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="172" column="89" selection-start="6616" selection-end="6616" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/ui/MainFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="141" column="21" selection-start="5376" selection-end="5376" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/WorkspaceConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="13" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Programs/jdk/jdk1.5.0.11/src.zip!/java/io/FileOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/xstream-1.3.1.jar!/com/thoughtworks/xstream/XStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="11" selection-start="2654" selection-end="2654" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jiehoo/jpm/core/Workspace.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="6" selection-start="6187" selection-end="6187" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jpm.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="79" selection-start="883" selection-end="883" vertical-scroll-proportion="-0.5167785">
+          <folding />
         </state>
       </provider>
     </entry>

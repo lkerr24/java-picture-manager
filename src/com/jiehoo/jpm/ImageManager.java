@@ -26,13 +26,19 @@ public class ImageManager {
         }
     };
 
-    public static BufferedImage getImage(File file, int width, int height) {
+    public static BufferedImage getImageFromContainer(String resourceKey, int width, int height) {
         BufferedImage originalImage;
+        String path = getImagePath(resourceKey);
+        logger.debug("getImageFromContainer:" + path);
         try {
-            originalImage = ImageIO.read(file);
+            originalImage = ImageIO.read(ImageManager.class.getResourceAsStream(path));
         } catch (IOException e) {
-            throw new JPMException("Can't read image:" + file.getAbsolutePath(), e);
+            throw new JPMException("Can't read image:" + path, e);
         }
+        return getImage(originalImage, width, height);
+    }
+
+    public static BufferedImage getImage(BufferedImage originalImage, int width, int height) {
         double originalWidth = originalImage.getWidth();
         double originalHeight = originalImage.getHeight();
         double rateWidth = width / originalWidth;
@@ -41,6 +47,16 @@ public class ImageManager {
         int targetWidth = (int) (originalWidth * rate);
         int targetHeight = (int) (originalHeight * rate);
         return resizeImage(originalImage, targetWidth, targetHeight);
+    }
+
+    public static BufferedImage getImage(File file, int width, int height) {
+        BufferedImage originalImage;
+        try {
+            originalImage = ImageIO.read(file);
+        } catch (IOException e) {
+            throw new JPMException("Can't read image:" + file.getAbsolutePath(), e);
+        }
+        return getImage(originalImage, width, height);
     }
 
     public static void resizeImage(File file, int width, int height, File output) {
@@ -140,5 +156,9 @@ public class ImageManager {
 
     public static File getImageFile(String resourceKey) {
         return new File(ImageManager.class.getResource("ui/" + Utils.resource.getString("image_path")).getFile(), Utils.resource.getString(resourceKey));
+    }
+
+    public static String getImagePath(String resourceKey) {
+        return "ui/" + Utils.resource.getString("image_path") + Utils.resource.getString(resourceKey);
     }
 }

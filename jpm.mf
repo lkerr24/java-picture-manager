@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: Ant
+Main-Class: com.jiehoo.jpm.JPM
+Class-Path: jrlib.jar xstream-1.3.1.jar log4j-1.2.16.jar sanselan-0.97-incubator.jar

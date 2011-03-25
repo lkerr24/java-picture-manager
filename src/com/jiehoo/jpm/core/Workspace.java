@@ -16,14 +16,14 @@ public class Workspace {
     private static final String FILE_NAME = "jpm.xml";
 
 
-    private String outputPath;
+    private String rootPath;
     private int tagIndex;
     private HashMap<Integer, Tag> tags = new HashMap<Integer, Tag>();
     private HashMap<File, ImageInfo> imageMap = new HashMap<File, ImageInfo>();
     private static TagSortByUsedTimes usedTimesSorter = new TagSortByUsedTimes();
     private static TagSortByLastUsedTime lastUsedTimeSorter = new TagSortByLastUsedTime();
     private static Workspace instance;
-    private static XStream xstream = new XStream(new DomDriver());
+    private static XStream xstream = new XStream(new DomDriver("UTF-8"));
     private static Comparator<File> duplicateComparator = new Comparator<File>() {
         public int compare(File o1, File o2) {
             ImageInfo i1 = Workspace.getInstance().getImage(o1);
@@ -53,8 +53,8 @@ public class Workspace {
         this.tagIndex = tagIndex;
     }
 
-    public String getOutputPath() {
-        return outputPath;
+    public String getRootPath() {
+        return rootPath;
     }
 
     public int getTagIndex() {
@@ -76,8 +76,8 @@ public class Workspace {
         return tags;
     }
 
-    protected Workspace(String outputPath) {
-        this.outputPath = outputPath;
+    protected Workspace(String rootPath) {
+        this.rootPath = rootPath;
     }
 
     public List<Entry<File, ImageInfo>> getImages(List<Integer> ranks, List<Integer> tags) {
@@ -171,7 +171,7 @@ public class Workspace {
 
     public void save() throws IOException {
         PrintStream writer = new PrintStream(new FileOutputStream(new File(
-                outputPath, FILE_NAME)), false, "UTF8");
+                rootPath, FILE_NAME)), false, "UTF8");
         //writer.print('\ufeff');
         xstream.toXML(instance, writer);
     }
@@ -190,7 +190,7 @@ public class Workspace {
     }
 
     public void scan(boolean forceUpdate) throws IOException {
-        scan(new File(outputPath), forceUpdate);
+        scan(new File(rootPath), forceUpdate);
     }
 
     private void scan(File dir, boolean forceUpdate) throws IOException {
@@ -202,7 +202,7 @@ public class Workspace {
         for (File file : files) {
             if (forceUpdate || !imageMap.containsKey(file)) {
                 ImageInfo image = new ImageInfo();
-                image.setPath(file.getAbsolutePath().substring(outputPath.length() + 1));
+                image.setPath(file.getAbsolutePath().substring(rootPath.length() + 1));
                 image.extractImageInfo(file);
                 imageMap.put(file, image);
             } else {
