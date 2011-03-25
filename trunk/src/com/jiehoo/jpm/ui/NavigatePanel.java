@@ -26,7 +26,7 @@ public class NavigatePanel extends JScrollPane {
 
     public NavigatePanel() {
         UIManager.setComponent(UIManager.NAVIGATE_PANEL, this);
-        topNode = new MyMutableTreeNode(Workspace.getInstance().getOutputPath(), true);
+        topNode = new MyMutableTreeNode(Workspace.getInstance().getRootPath(), true);
         tree = new JTree(topNode);
         getViewport().add(tree);
         tree.setExpandsSelectedPaths(true);
@@ -165,12 +165,12 @@ public class NavigatePanel extends JScrollPane {
         static int height = 16;
 
         static {
-            workspaceIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_workspace"), width, height));
-            notExistFolderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_notExistFolder"), width, height));
-            folderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_folder"), width, height));
-            emptyFolderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_emptyFolder"), width, height));
-            pictureFolderIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_pictureFolder"), width, height));
-            pictureIcon = new ImageIcon(ImageManager.getImage(ImageManager.getImageFile("icon_picture"), width, height));
+            workspaceIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_workspace", width, height));
+            notExistFolderIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_notExistFolder", width, height));
+            folderIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_folder", width, height));
+            emptyFolderIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_emptyFolder", width, height));
+            pictureFolderIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_pictureFolder", width, height));
+            pictureIcon = new ImageIcon(ImageManager.getImageFromContainer("icon_picture", width, height));
         }
 
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {

@@ -31,7 +31,7 @@ public class ImageInfo {
     private HashSet<Integer> tags = new HashSet<Integer>();
 
     public String getAbsolutePath() {
-        return Workspace.getInstance().getOutputPath() + "/" + path;
+        return Workspace.getInstance().getRootPath() + "/" + path;
     }
 
     public int getInteropOffset() {

@@ -36,7 +36,6 @@ public class MainPanel extends JSplitPane {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         panel.add(picturesPanel);
-        //picturesPanel.setBorder(LineBorder.createBlackLineBorder());
         panel.add(Box.createVerticalGlue());
         scrollPane.getViewport().add(panel);
         cardPanel.setLayout(cardLayout);
@@ -106,38 +105,23 @@ public class MainPanel extends JSplitPane {
         Picture picture = new Picture(file, picturePanel.getWidth(), picturePanel.getHeight() - 30);
         picturePanel.removeAll();
         picturePanel.add(picture);
+        picture.setSelect(true);
         updateUI();
     }
 
 
     public void applyTag(int tagID, boolean remove) {
-        if (currentCard.equals(PICTURES_VIEW)) {
-            for (Picture picture : pictures) {
-                if (picture.isSelected() && picture.isPicture()) {
-                    Workspace.getInstance().applyTag(picture.getPicture(), tagID, remove);
-                }
-            }
-        } else {
-            Picture picture = (Picture) picturePanel.getComponent(0);
-            if (picture.isSelected() && picture.isPicture()) {
-                Workspace.getInstance().applyTag(picture.getPicture(), tagID, remove);
-            }
+        List<Picture> pictures = getSelectedPictures(true);
+        for (Picture picture : pictures) {
+            Workspace.getInstance().applyTag(picture.getPicture(), tagID, remove);
         }
         UIManager.saveWorkspace();
     }
 
     public void applyRank(int rank) {
-        if (currentCard.equals(PICTURES_VIEW)) {
-            for (Picture picture : pictures) {
-                if (picture.isSelected() && picture.isPicture()) {
-                    Workspace.getInstance().applyRank(picture.getPicture(), rank);
-                }
-            }
-        } else {
-            Picture picture = (Picture) picturePanel.getComponent(0);
-            if (picture.isSelected() && picture.isPicture()) {
-                Workspace.getInstance().applyRank(picture.getPicture(), rank);
-            }
+        List<Picture> pictures = getSelectedPictures(true);
+        for (Picture picture : pictures) {
+            Workspace.getInstance().applyRank(picture.getPicture(), rank);
         }
         UIManager.saveWorkspace();
     }
@@ -156,18 +140,27 @@ public class MainPanel extends JSplitPane {
     }
 
     public void exportPictures(String path, int percent) {
+        List<Picture> pictures = getSelectedPictures(true);
+        for (Picture picture : pictures) {
+            ImageManager.resizeImage(picture.getPicture(), ((float) percent) / 100, new File(path, picture.getName()));
+        }
+    }
+
+    public List<Picture> getSelectedPictures(boolean excludeDirectory) {
+        List<Picture> result = new ArrayList<Picture>();
         if (currentCard.equals(PICTURES_VIEW)) {
             for (Picture picture : pictures) {
-                if (picture.isSelected() && picture.isPicture()) {
-                    ImageManager.resizeImage(picture.getPicture(), ((float) percent) / 100, new File(path, picture.getName()));
+                if (picture.isSelected() && (!excludeDirectory || picture.isPicture())) {
+                    result.add(picture);
                 }
             }
         } else {
             Picture picture = (Picture) picturePanel.getComponent(0);
-            if (picture.isSelected() && picture.isPicture()) {
-                ImageManager.resizeImage(picture.getPicture(), ((float) percent) / 100, new File(path, picture.getName()));
+            if (picture.isSelected() && (!excludeDirectory || picture.isPicture())) {
+                result.add(picture);
             }
         }
+        return result;
     }
 
     public boolean hasSelectedPictures() {
