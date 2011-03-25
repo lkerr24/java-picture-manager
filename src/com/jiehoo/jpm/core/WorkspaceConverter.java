@@ -13,7 +13,6 @@ public class WorkspaceConverter implements Converter {
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext context) {
         Workspace worksppace = (Workspace) o;
         writer.addAttribute("rootPath", worksppace.getRootPath());
-        writer.addAttribute("tagIndex", worksppace.getTagIndex() + "");
         writer.startNode("tags");
         for (Tag tag : worksppace.getTags().values()) {
             writer.startNode("tag");
@@ -33,7 +32,6 @@ public class WorkspaceConverter implements Converter {
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
         Workspace workspace = new Workspace(reader.getAttribute("rootPath"));
         Workspace.setInstance(workspace);
-        workspace.setTagIndex(Integer.parseInt(reader.getAttribute("tagIndex")));
         while (reader.hasMoreChildren()) {
             parseCollection(workspace, reader, context);
         }
@@ -54,6 +52,9 @@ public class WorkspaceConverter implements Converter {
                 Tag tag = (Tag) context.convertAnother(workspace, Tag.class);
                 workspace.getTags().put(tag.getID(), tag);
                 reader.moveUp();
+                if (workspace.getTagIndex() < tag.getID()) {
+                    workspace.setTagIndex(tag.getID());
+                }
             }
         } else if (node.equals("images")) {
             while (reader.hasMoreChildren()) {

@@ -157,14 +157,15 @@ public class Workspace {
     public static void init() throws IOException {
         if (instance == null) {
             Preferences preference = Utils.GetPreferences();
-            String output = preference.get("output", System.getProperty("user.home"));
-            preference.put("output", output);
+            String output = preference.get(Constants.LAST_WORKSPACE, System.getProperty("user.home"));
+            preference.put(Constants.LAST_WORKSPACE, output);
             File file = new File(output, FILE_NAME);
             if (!file.exists()) {
                 instance = new Workspace(output);
                 instance.save();
             } else {
                 instance = (Workspace) xstream.fromXML(new FileReader(file));
+                instance.rootPath = file.getParent();
             }
         }
     }
@@ -199,19 +200,23 @@ public class Workspace {
             return;
         }
         File[] files = dir.listFiles(Utils.fileFilter);
-        for (File file : files) {
-            if (forceUpdate || !imageMap.containsKey(file)) {
-                ImageInfo image = new ImageInfo();
-                image.setPath(file.getAbsolutePath().substring(rootPath.length() + 1));
-                image.extractImageInfo(file);
-                imageMap.put(file, image);
-            } else {
-                logger.debug("Scanned image:" + file.getAbsolutePath());
+        if (files != null) {
+            for (File file : files) {
+                if (forceUpdate || !imageMap.containsKey(file)) {
+                    ImageInfo image = new ImageInfo();
+                    image.setPath(file.getAbsolutePath().substring(rootPath.length() + 1));
+                    image.extractImageInfo(file);
+                    imageMap.put(file, image);
+                } else {
+                    logger.debug("Scanned image:" + file.getAbsolutePath());
+                }
             }
         }
         File[] dirs = dir.listFiles(Utils.dirFilter);
-        for (File d : dirs) {
-            scan(d, forceUpdate);
+        if (dirs != null) {
+            for (File d : dirs) {
+                scan(d, forceUpdate);
+            }
         }
     }
 

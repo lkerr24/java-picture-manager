@@ -1,5 +1,6 @@
 package com.jiehoo.jpm.core;
 
+import com.jiehoo.jpm.Constants;
 import org.apache.log4j.Logger;
 import org.apache.sanselan.ImageReadException;
 import org.apache.sanselan.Sanselan;
@@ -31,7 +32,7 @@ public class ImageInfo {
     private HashSet<Integer> tags = new HashSet<Integer>();
 
     public String getAbsolutePath() {
-        return Workspace.getInstance().getRootPath() + "/" + path;
+        return Workspace.getInstance().getRootPath() + Constants.PATH_SEPERATOR + path;
     }
 
     public int getInteropOffset() {

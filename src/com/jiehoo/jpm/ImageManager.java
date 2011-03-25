@@ -29,7 +29,6 @@ public class ImageManager {
     public static BufferedImage getImageFromContainer(String resourceKey, int width, int height) {
         BufferedImage originalImage;
         String path = getImagePath(resourceKey);
-        logger.debug("getImageFromContainer:" + path);
         try {
             originalImage = ImageIO.read(ImageManager.class.getResourceAsStream(path));
         } catch (IOException e) {
@@ -154,11 +153,7 @@ public class ImageManager {
         return data;
     }
 
-    public static File getImageFile(String resourceKey) {
-        return new File(ImageManager.class.getResource("ui/" + Utils.resource.getString("image_path")).getFile(), Utils.resource.getString(resourceKey));
-    }
-
     public static String getImagePath(String resourceKey) {
-        return "ui/" + Utils.resource.getString("image_path") + Utils.resource.getString(resourceKey);
+        return "ui" + Constants.PATH_SEPERATOR + Utils.resource.getString("image_path") + Utils.resource.getString(resourceKey);
     }
 }
