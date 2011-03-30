@@ -11,21 +11,30 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
  */
 public class Picture extends JLabel {
+    private static final int MAX_ENTRIES = 200;
+    private static Map<File, Picture> cache = new LinkedHashMap<File, Picture>(MAX_ENTRIES, .75F, true) {
+        protected boolean removeEldestEntry(Map.Entry eldest) {
+            return size() > MAX_ENTRIES;
+        }
+    };
     private static Logger logger = Logger.getLogger(Picture.class);
-    private static BufferedImage folderImage;
-    private static BufferedImage errorImage;
+    private static ImageIcon folderImage;
+    private static ImageIcon errorImage;
+    private static ImageIcon pictureImage;
     private boolean selected = false;
     private TitledBorder selectedBorder;
     private TitledBorder unselectedBorder;
     private File file;
     private boolean isPicture;
+    private boolean loaded;
 
     private static MouseListener mouseListener = new MouseListener() {
         public void mousePressed(MouseEvent e) {
@@ -66,22 +75,34 @@ public class Picture extends JLabel {
     };
 
     static {
-        folderImage = ImageManager.getImageFromContainer("image_folder", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
-        errorImage = ImageManager.getImageFromContainer("image_error", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT);
+        folderImage = new ImageIcon(ImageManager.getImageFromContainer("image_folder", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
+        errorImage = new ImageIcon(ImageManager.getImageFromContainer("image_error", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
+        pictureImage = new ImageIcon(ImageManager.getImageFromContainer("image_picture", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
     }
 
-    public Picture(File file) {
+    public static Picture getPicture(File file) {
+        Picture picture = cache.get(file);
+        if (picture == null) {
+            picture = new Picture(file);
+            cache.put(file, picture);
+        } else {
+            picture.setSelect(false);
+        }
+        return picture;
+    }
+
+    private Picture(File file) {
         this.file = file;
         if (file.isDirectory()) {
-            setIcon(new ImageIcon(folderImage));
+            setIcon(folderImage);
         } else {
             isPicture = true;
             try {
-                setIcon(new ImageIcon(ImageManager.getThumbnails(file)));
+                setIcon(pictureImage);
                 setToolTipText(getDescription(file));
             } catch (Exception e) {
                 logger.warn("Can't read image:" + file, e);
-                setIcon(new ImageIcon(errorImage));
+                setIcon(errorImage);
             }
         }
         init();
@@ -95,7 +116,7 @@ public class Picture extends JLabel {
             setToolTipText(getDescription(file));
         } catch (JPMException e) {
             logger.warn("Can't read image:" + file, e);
-            setIcon(new ImageIcon(errorImage));
+            setIcon(errorImage);
         }
         init();
     }
@@ -110,6 +131,15 @@ public class Picture extends JLabel {
         buffer.append("Rank:").append(image.getRank()).append("<br>");
         buffer.append("</html>");
         return buffer.toString();
+    }
+
+    public boolean preview() {
+        if (isPicture && !loaded) {
+            setIcon(new ImageIcon(ImageManager.getThumbnails(file)));
+            loaded = true;
+            return true;
+        }
+        return false;
     }
 
     private void setBorder() {

@@ -73,6 +73,7 @@ public class SearchDialog extends JDialog {
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
+                mainPanel.reset();
                 mainPanel.searchPictures(ranks, tagids);
                 setVisible(false);
             }

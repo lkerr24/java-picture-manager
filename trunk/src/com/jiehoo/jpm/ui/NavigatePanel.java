@@ -89,7 +89,6 @@ public class NavigatePanel extends JScrollPane {
                         childNode.detectType(f.getAbsolutePath());
                         node.add(childNode);
                     }
-                    //((DefaultTreeModel) tree.getModel()).nodeStructureChanged(node);
                 }
                 mainPanel.viewPictures(files);
             }
