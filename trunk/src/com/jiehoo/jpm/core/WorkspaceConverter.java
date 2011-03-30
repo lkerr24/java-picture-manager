@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class WorkspaceConverter implements Converter {
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext context) {
         Workspace worksppace = (Workspace) o;
-        writer.addAttribute("rootPath", worksppace.getRootPath());
         writer.startNode("tags");
         for (Tag tag : worksppace.getTags().values()) {
             writer.startNode("tag");
@@ -30,7 +29,7 @@ public class WorkspaceConverter implements Converter {
     }
 
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-        Workspace workspace = new Workspace(reader.getAttribute("rootPath"));
+        Workspace workspace = new Workspace("");
         Workspace.setInstance(workspace);
         while (reader.hasMoreChildren()) {
             parseCollection(workspace, reader, context);

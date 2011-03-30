@@ -19,8 +19,8 @@ public class ImageInfoConverter implements Converter {
         if (!image.getCamera().equals(ImageInfo.UNKNOWN_CAMERA))
             writer.addAttribute("camera", image.getCamera());
         writer.addAttribute("path", image.getPath());
-        if (image.getInteropOffset() != ImageInfo.UNKNOWN_INTEROP_OFFSET)
-            writer.addAttribute("interopOffset", image.getInteropOffset() + "");
+        if (image.getCompressionBPP().equals(ImageInfo.UNKNOWN_COMPRESSION_BPP))
+            writer.addAttribute("compressionBPP", image.getCompressionBPP() + "");
         if (!image.getExposureTime().equals(ImageInfo.UNKNOWN_EXPOSURE_TIME))
             writer.addAttribute("exposureTime", image.getExposureTime());
         if (!image.getMaxAperture().equals(ImageInfo.UNKNOWN_MAX_APERTURE))
@@ -46,7 +46,7 @@ public class ImageInfoConverter implements Converter {
         image.setSize(Long.parseLong(getAttribute(reader, "size", "0")));
         image.setDate(getAttribute(reader, "date", ImageInfo.UNKNOWN_DATE));
         image.setCamera(getAttribute(reader, "camera", ImageInfo.UNKNOWN_CAMERA));
-        image.setInteropOffset(Integer.parseInt(getAttribute(reader, "interopOffset", ImageInfo.UNKNOWN_INTEROP_OFFSET + "")));
+        image.setCompressionBPP(getAttribute(reader, "compressionBPP", ImageInfo.UNKNOWN_COMPRESSION_BPP + ""));
         image.setPath(reader.getAttribute("path"));
         image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN_EXPOSURE_TIME));
         image.setMaxAperture(getAttribute(reader, "maxAperture", ImageInfo.UNKNOWN_MAX_APERTURE));

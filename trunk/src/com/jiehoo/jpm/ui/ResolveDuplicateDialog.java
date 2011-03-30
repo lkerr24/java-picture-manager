@@ -162,6 +162,7 @@ public class ResolveDuplicateDialog extends JDialog {
         previewPanel.removeAll();
         pictures.clear();
         Picture picture = Picture.getPicture(files.get(0));
+        picture.preview();
         previewPanel.add(picture);
         pictures.add(picture);
         for (int i = 1; i < files.size(); i++) {

@@ -32,7 +32,8 @@ public class MainPanel extends JSplitPane {
 
         public void run() {
             int previewCount = 0;
-            for (Picture picture : pictures) {
+            List<Picture> ps = new ArrayList<Picture>(pictures);
+            for (Picture picture : ps) {
                 if (stop) {
                     break;
                 }

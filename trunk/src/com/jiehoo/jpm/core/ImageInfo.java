@@ -16,17 +16,17 @@ import java.util.HashSet;
 public class ImageInfo {
     public static final String UNKNOWN_CAMERA = "NA";
     public static final String UNKNOWN_DATE = "1970:00:00 00:00:00";
-    public static final int UNKNOWN_INTEROP_OFFSET = 0;
+    public static final String UNKNOWN_COMPRESSION_BPP = "NA";
     public static final String UNKNOWN_EXPOSURE_TIME = "NA";
     public static final String UNKNOWN_MAX_APERTURE = "NA";
-    public static final String UNKNOWN_ID = UNKNOWN_DATE + "_" + UNKNOWN_INTEROP_OFFSET + "_" + UNKNOWN_EXPOSURE_TIME + "_" + UNKNOWN_MAX_APERTURE + "_" + UNKNOWN_CAMERA;
+    public static final String UNKNOWN_ID = UNKNOWN_DATE + "_" + UNKNOWN_COMPRESSION_BPP + "_" + UNKNOWN_EXPOSURE_TIME + "_" + UNKNOWN_MAX_APERTURE + "_" + UNKNOWN_CAMERA;
     private static Logger logger = Logger.getLogger(ImageInfo.class);
     private int rank;
     private long size;
     private String path;
     private String camera;
     private String date;
-    private int interopOffset;
+    private String compressionBPP;
     private String exposureTime;
     private String maxAperture;
     private HashSet<Integer> tags = new HashSet<Integer>();
@@ -35,12 +35,12 @@ public class ImageInfo {
         return Workspace.getInstance().getRootPath() + Constants.PATH_SEPERATOR + path;
     }
 
-    public int getInteropOffset() {
-        return interopOffset;
+    public String getCompressionBPP() {
+        return compressionBPP;
     }
 
-    public void setInteropOffset(int interopOffset) {
-        this.interopOffset = interopOffset;
+    public void setCompressionBPP(String compressionBPP) {
+        this.compressionBPP = compressionBPP;
     }
 
     public String getExposureTime() {
@@ -86,7 +86,7 @@ public class ImageInfo {
     public String getID() {
         StringBuilder buffer = new StringBuilder();
         buffer.append(date);
-        buffer.append("_").append(interopOffset);
+        buffer.append("_").append(compressionBPP);
         buffer.append("_").append(exposureTime);
         buffer.append("_").append(maxAperture);
         buffer.append("_").append(camera);
@@ -137,7 +137,7 @@ public class ImageInfo {
             metadata = (JpegImageMetadata) Sanselan.getMetadata(file);
             camera = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_MODEL, UNKNOWN_CAMERA);
             date = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_DATE_TIME_ORIGINAL, UNKNOWN_DATE);
-            interopOffset = (Integer) getPropertyValue(metadata, TiffConstants.EXIF_TAG_INTEROP_OFFSET, UNKNOWN_INTEROP_OFFSET);
+            compressionBPP = getPropertyValue(metadata, TiffConstants.EXIF_TAG_COMPRESSED_BITS_PER_PIXEL, UNKNOWN_COMPRESSION_BPP).toString();
             exposureTime = getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXPOSURE_TIME, UNKNOWN_EXPOSURE_TIME).toString();
             maxAperture = getPropertyValue(metadata, TiffConstants.EXIF_TAG_MAX_APERTURE_VALUE, UNKNOWN_MAX_APERTURE).toString();
         } catch (ImageReadException e) {
