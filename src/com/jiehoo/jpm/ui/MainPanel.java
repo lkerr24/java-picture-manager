@@ -3,6 +3,7 @@ package com.jiehoo.jpm.ui;
 import com.jiehoo.jpm.ImageManager;
 import com.jiehoo.jpm.core.ImageInfo;
 import com.jiehoo.jpm.core.Workspace;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainPanel extends JSplitPane {
+    private static Logger logger = Logger.getLogger(MainPanel.class);
     private static final String PICTURES_VIEW = "PICTURES_VIEW";
     private static final String PICTURE_VIEW = "PICTURE_VIEW";
     private List<Picture> pictures = new ArrayList<Picture>();
@@ -23,6 +25,33 @@ public class MainPanel extends JSplitPane {
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardPanel = new JPanel();
     private String currentCard;
+    private PreviewThread previewThread;
+
+    class PreviewThread extends Thread {
+        boolean stop;
+
+        public void run() {
+            int previewCount = 0;
+            for (Picture picture : pictures) {
+                if (stop) {
+                    break;
+                }
+                if (picture.preview()) previewCount++;
+                if (previewCount % 10 == 9) {
+                    updateUI();
+                    try {
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        logger.warn("Interrupted when preview.", e);
+                    }
+                    previewCount = 0;
+                }
+            }
+            if (previewCount > 0)
+                updateUI();
+        }
+
+    }
 
     public MainPanel() {
         super(JSplitPane.VERTICAL_SPLIT);
@@ -81,11 +110,12 @@ public class MainPanel extends JSplitPane {
         }
         picturesPanel.setLayout(new GridLayout(0, columns, 10, 10));
         for (File f : files) {
-            Picture picture = new Picture(f);
+            Picture picture = Picture.getPicture(f);
             pictures.add(picture);
             picturesPanel.add(picture);
         }
         updateUI();
+        preview();
     }
 
     public void clearSelect() {
@@ -95,6 +125,9 @@ public class MainPanel extends JSplitPane {
     }
 
     public void reset() {
+        if (previewThread != null && previewThread.isAlive()) {
+            previewThread.stop = true;
+        }
         pictures.clear();
         picturesPanel.removeAll();
     }
@@ -126,17 +159,22 @@ public class MainPanel extends JSplitPane {
         UIManager.saveWorkspace();
     }
 
+    private void preview() {
+        previewThread = new PreviewThread();
+        previewThread.start();
+    }
+
     public void searchPictures(List<Integer> ranks, List<Integer> tags) {
-        reset();
         cardLayout.show(cardPanel, PICTURES_VIEW);
         currentCard = PICTURES_VIEW;
         List<Map.Entry<File, ImageInfo>> images = Workspace.getInstance().getImages(ranks, tags);
         for (Map.Entry<File, ImageInfo> image : images) {
-            Picture picture = new Picture(image.getKey());
+            Picture picture = Picture.getPicture(image.getKey());
             pictures.add(picture);
             picturesPanel.add(picture);
         }
         updateUI();
+        preview();
     }
 
     public void exportPictures(String path, int percent) {
