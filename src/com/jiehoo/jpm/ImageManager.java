@@ -133,6 +133,7 @@ public class ImageManager {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
                 ImageIO.write(image, getFormat(file.getName()), baos);
+                data = baos.toByteArray();
                 File dir = new File(file.getParent(), Constants.THUMBNAILS_DIRECTORY);
                 boolean canOuput = true;
                 if (!dir.exists()) {
@@ -147,7 +148,6 @@ public class ImageManager {
             } catch (Exception e) {
                 throw new JPMException("Can't create thumbnail:" + file.getAbsolutePath(), e);
             }
-            data = baos.toByteArray();
         }
         thumbnailsCache.put(file, data);
         return data;
