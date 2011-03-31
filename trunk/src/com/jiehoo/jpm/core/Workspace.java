@@ -86,9 +86,14 @@ public class Workspace {
         if (ranks.size() == 0) {
             anyRank = true;
         }
+        boolean noneTag = false;
+        if (tags.size() == 0) {
+            noneTag = true;
+        }
         for (Entry<File, ImageInfo> entry : imageMap.entrySet()) {
-
-            if ((anyRank || ranks.contains(entry.getValue().getRank())) && entry.getValue().getTags().containsAll(tags)) {
+            if ((anyRank || ranks.contains(entry.getValue().getRank())) &&
+                    ((noneTag && entry.getValue().getTags().size() == 0) ||
+                            entry.getValue().getTags().containsAll(tags))) {
                 images.add(entry);
             }
         }
@@ -166,6 +171,11 @@ public class Workspace {
             } else {
                 instance = (Workspace) xstream.fromXML(new FileReader(file));
                 instance.rootPath = file.getParent();
+                HashMap<File, ImageInfo> imageMap = new HashMap<File, ImageInfo>();
+                for (ImageInfo image : instance.getImageMap().values()) {
+                    imageMap.put(new File(image.getAbsolutePath()), image);
+                }
+                instance.setImageMap(imageMap);
             }
         }
     }
