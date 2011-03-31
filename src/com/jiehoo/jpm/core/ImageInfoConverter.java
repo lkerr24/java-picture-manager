@@ -16,15 +16,17 @@ public class ImageInfoConverter implements Converter {
         writer.addAttribute("size", image.getSize() + "");
         if (!image.getDate().equals(ImageInfo.UNKNOWN_DATE))
             writer.addAttribute("date", image.getDate());
-        if (!image.getCamera().equals(ImageInfo.UNKNOWN_CAMERA))
+        if (!image.getCamera().equals(ImageInfo.UNKNOWN))
             writer.addAttribute("camera", image.getCamera());
         writer.addAttribute("path", image.getPath());
-        if (image.getCompressionBPP().equals(ImageInfo.UNKNOWN_COMPRESSION_BPP))
+        if (image.getCompressionBPP().equals(ImageInfo.UNKNOWN))
             writer.addAttribute("compressionBPP", image.getCompressionBPP() + "");
-        if (!image.getExposureTime().equals(ImageInfo.UNKNOWN_EXPOSURE_TIME))
+        if (!image.getExposureTime().equals(ImageInfo.UNKNOWN))
             writer.addAttribute("exposureTime", image.getExposureTime());
-        if (!image.getMaxAperture().equals(ImageInfo.UNKNOWN_MAX_APERTURE))
-            writer.addAttribute("maxAperture", image.getMaxAperture());
+        if (!image.getAperture().equals(ImageInfo.UNKNOWN))
+            writer.addAttribute("aperture", image.getAperture());
+        if (!image.getResolution().equals(ImageInfo.UNKNOWN_RESOLUTION))
+            writer.addAttribute("resolution", image.getResolution());
         if (image.getTags().size() > 0)
             writer.addAttribute("tags", getTags(image.getTags()));
     }
@@ -45,11 +47,12 @@ public class ImageInfoConverter implements Converter {
         image.setRank(Integer.parseInt(getAttribute(reader, "rank", "0")));
         image.setSize(Long.parseLong(getAttribute(reader, "size", "0")));
         image.setDate(getAttribute(reader, "date", ImageInfo.UNKNOWN_DATE));
-        image.setCamera(getAttribute(reader, "camera", ImageInfo.UNKNOWN_CAMERA));
-        image.setCompressionBPP(getAttribute(reader, "compressionBPP", ImageInfo.UNKNOWN_COMPRESSION_BPP + ""));
+        image.setCamera(getAttribute(reader, "camera", ImageInfo.UNKNOWN));
+        image.setCompressionBPP(getAttribute(reader, "compressionBPP", ImageInfo.UNKNOWN + ""));
         image.setPath(reader.getAttribute("path"));
-        image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN_EXPOSURE_TIME));
-        image.setMaxAperture(getAttribute(reader, "maxAperture", ImageInfo.UNKNOWN_MAX_APERTURE));
+        image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN));
+        image.setAperture(getAttribute(reader, "aperture", ImageInfo.UNKNOWN));
+        image.setResolution(getAttribute(reader, "resolution", ImageInfo.UNKNOWN_RESOLUTION));
         String ts = getAttribute(reader, "tags", "");
         if (!ts.equals("")) {
             String[] tags = ts.split(",");

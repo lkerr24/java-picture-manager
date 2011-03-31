@@ -11,15 +11,15 @@ import org.apache.sanselan.formats.tiff.constants.TiffConstants;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 
 public class ImageInfo {
-    public static final String UNKNOWN_CAMERA = "NA";
+    public static final String UNKNOWN = "NA";
     public static final String UNKNOWN_DATE = "1970:00:00 00:00:00";
-    public static final String UNKNOWN_COMPRESSION_BPP = "NA";
-    public static final String UNKNOWN_EXPOSURE_TIME = "NA";
-    public static final String UNKNOWN_MAX_APERTURE = "NA";
-    public static final String UNKNOWN_ID = UNKNOWN_DATE + "_" + UNKNOWN_COMPRESSION_BPP + "_" + UNKNOWN_EXPOSURE_TIME + "_" + UNKNOWN_MAX_APERTURE + "_" + UNKNOWN_CAMERA;
+    public static final String UNKNOWN_RESOLUTION = "NAxNA";
+    public static final String UNKNOWN_ID =
+            UNKNOWN_DATE + "_" + UNKNOWN + "_" + UNKNOWN + "_" + UNKNOWN + "_" + UNKNOWN;
     private static Logger logger = Logger.getLogger(ImageInfo.class);
     private int rank;
     private long size;
@@ -28,8 +28,10 @@ public class ImageInfo {
     private String date;
     private String compressionBPP;
     private String exposureTime;
-    private String maxAperture;
+    private String aperture;
+    private String resolution;
     private HashSet<Integer> tags = new HashSet<Integer>();
+    private static final DecimalFormat format = new DecimalFormat("0.00");
 
     public String getAbsolutePath() {
         return Workspace.getInstance().getRootPath() + Constants.PATH_SEPERATOR + path;
@@ -51,12 +53,12 @@ public class ImageInfo {
         this.exposureTime = exposureTime;
     }
 
-    public String getMaxAperture() {
-        return maxAperture;
+    public String getAperture() {
+        return aperture;
     }
 
-    public void setMaxAperture(String maxAperture) {
-        this.maxAperture = maxAperture;
+    public void setAperture(String aperture) {
+        this.aperture = aperture;
     }
 
     public long getSize() {
@@ -88,7 +90,7 @@ public class ImageInfo {
         buffer.append(date);
         buffer.append("_").append(compressionBPP);
         buffer.append("_").append(exposureTime);
-        buffer.append("_").append(maxAperture);
+        buffer.append("_").append(aperture);
         buffer.append("_").append(camera);
         if (buffer.toString().equals(UNKNOWN_ID)) {
             buffer.append("_").append(size);
@@ -129,23 +131,39 @@ public class ImageInfo {
         tags.remove(tag);
     }
 
+    public String getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
     public void extractImageInfo(File file) throws IOException {
         logger.debug("Extract image info for:" + file);
         size = file.length();
         JpegImageMetadata metadata;
         try {
             metadata = (JpegImageMetadata) Sanselan.getMetadata(file);
-            camera = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_MODEL, UNKNOWN_CAMERA);
+            camera = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_MODEL, UNKNOWN);
             date = (String) getPropertyValue(metadata, TiffConstants.EXIF_TAG_DATE_TIME_ORIGINAL, UNKNOWN_DATE);
-            compressionBPP = getPropertyValue(metadata, TiffConstants.EXIF_TAG_COMPRESSED_BITS_PER_PIXEL, UNKNOWN_COMPRESSION_BPP).toString();
-            exposureTime = getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXPOSURE_TIME, UNKNOWN_EXPOSURE_TIME).toString();
-            maxAperture = getPropertyValue(metadata, TiffConstants.EXIF_TAG_MAX_APERTURE_VALUE, UNKNOWN_MAX_APERTURE).toString();
+            compressionBPP = getPropertyValue(metadata, TiffConstants.EXIF_TAG_COMPRESSED_BITS_PER_PIXEL,
+                    UNKNOWN).toString();
+            exposureTime =
+                    getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXPOSURE_TIME, UNKNOWN).toString();
+            aperture = getPropertyValue(metadata, TiffConstants.EXIF_TAG_APERTURE_VALUE, UNKNOWN)
+                    .toString();
+            resolution = getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXIF_IMAGE_WIDTH, UNKNOWN)
+                    .toString() + "x" +
+                    getPropertyValue(metadata, TiffConstants.EXIF_TAG_EXIF_IMAGE_LENGTH, UNKNOWN)
+                            .toString();
         } catch (ImageReadException e) {
             logger.warn("Can't extract image information.", e);
         }
     }
 
-    private Object getPropertyValue(JpegImageMetadata metadata, TagInfo property, Object defaultValue) throws ImageReadException {
+    private Object getPropertyValue(JpegImageMetadata metadata, TagInfo property, Object defaultValue)
+            throws ImageReadException {
         if (metadata == null) {
             return defaultValue;
         }
@@ -159,6 +177,16 @@ public class ImageInfo {
             return result;
         } else {
             return defaultValue;
+        }
+    }
+
+    public String getDisplaySize() {
+        double s = (double) size / 1024;
+        if (s > 1000) {
+            s = s / 1024;
+            return format.format(s) + " MB";
+        } else {
+            return format.format(s) + " KB";
         }
     }
 

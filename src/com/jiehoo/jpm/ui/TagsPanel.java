@@ -9,14 +9,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TagsPanel extends JPanel {
     private JPanel tagsPanel;
+    private Map<Integer, TagButton> buttons = new HashMap<Integer, TagButton>();
 
     private static ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             TagButton tagButton = (TagButton) e.getSource();
-            ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).applyTag(tagButton.getTag().getID(), !tagButton.getModel().isSelected());
+            ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL))
+                    .applyTag(tagButton.getTag().getID(), !tagButton.getModel().isSelected());
         }
     };
 
@@ -27,7 +30,8 @@ public class TagsPanel extends JPanel {
         ActionListener rankActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JRadioButton button = (JRadioButton) e.getSource();
-                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).applyRank(Integer.parseInt(button.getText()));
+                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL))
+                        .applyRank(Integer.parseInt(button.getText()));
             }
         };
         panel.add(new JLabel(Utils.resource.getString("label_rank")));
@@ -53,7 +57,7 @@ public class TagsPanel extends JPanel {
                 Tag tag = Workspace.getInstance().createTag(
                         newTagField.getText());
                 addTag(tag);
-                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).applyTag(tag.getID(), true);
+                ((MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL)).applyTag(tag.getID(), false);
                 tagsPanel.updateUI();
                 newTagField.setText("");
                 UIManager.saveWorkspace();
@@ -75,6 +79,7 @@ public class TagsPanel extends JPanel {
         TagButton button = new TagButton(tag);
         button.addActionListener(actionListener);
         tagsPanel.add(button);
+        buttons.put(tag.getID(), button);
     }
 
     public void reset() {
@@ -84,5 +89,9 @@ public class TagsPanel extends JPanel {
                 button.setSelected(false);
             }
         }
+    }
+
+    public Map<Integer, TagButton> getTagButtons() {
+        return buttons;
     }
 }

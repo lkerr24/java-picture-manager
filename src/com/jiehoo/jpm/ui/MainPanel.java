@@ -56,6 +56,7 @@ public class MainPanel extends JSplitPane {
 
     public MainPanel() {
         super(JSplitPane.VERTICAL_SPLIT);
+        this.setAutoscrolls(false);
         UIManager.setComponent(UIManager.MAIN_PANEL, this);
         this.setResizeWeight(0.1);
         TagsPanel tagsPanel = new TagsPanel();
@@ -96,13 +97,15 @@ public class MainPanel extends JSplitPane {
                     picture.setSelect(true);
                 }
                 picturesPanel.updateUI();
+                ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                        .setSelected(pictures.size() + " selected", "", "");
             }
         });
         InputMap inputMap = picturesPanel.getInputMap();
         inputMap.put(KeyStroke.getKeyStroke("control A"), "selectAll");
     }
 
-    public void viewPictures(File[] files) {
+    private void switchToPicturesView() {
         cardLayout.show(cardPanel, PICTURES_VIEW);
         currentCard = PICTURES_VIEW;
         int columns = getWidth() / 200;
@@ -110,6 +113,10 @@ public class MainPanel extends JSplitPane {
             columns = 1;
         }
         picturesPanel.setLayout(new GridLayout(0, columns, 10, 10));
+    }
+
+    public void viewPictures(File[] files) {
+        switchToPicturesView();
         for (File f : files) {
             Picture picture = Picture.getPicture(f);
             pictures.add(picture);
@@ -117,6 +124,8 @@ public class MainPanel extends JSplitPane {
         }
         updateUI();
         preview();
+        ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                .setStatus(files.length + " items", "0 selected", "", "");
     }
 
     public void clearSelect() {
@@ -141,6 +150,9 @@ public class MainPanel extends JSplitPane {
         picturePanel.add(picture);
         picture.setSelect(true);
         updateUI();
+        ImageInfo image = Workspace.getInstance().getImage(picture.getPicture());
+        ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                .setStatus("1 items", picture.getPicture().getName(), image.getDisplaySize(), image.getResolution());
     }
 
 
@@ -166,8 +178,7 @@ public class MainPanel extends JSplitPane {
     }
 
     public void searchPictures(List<Integer> ranks, List<Integer> tags) {
-        cardLayout.show(cardPanel, PICTURES_VIEW);
-        currentCard = PICTURES_VIEW;
+        switchToPicturesView();
         List<Map.Entry<File, ImageInfo>> images = Workspace.getInstance().getImages(ranks, tags);
         for (Map.Entry<File, ImageInfo> image : images) {
             Picture picture = Picture.getPicture(image.getKey());
@@ -176,6 +187,8 @@ public class MainPanel extends JSplitPane {
         }
         updateUI();
         preview();
+        ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                .setStatus(images.size() + " items", "0 selected", "", "");
     }
 
     public void exportPictures(String path, int percent) {

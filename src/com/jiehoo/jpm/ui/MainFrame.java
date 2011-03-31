@@ -26,6 +26,7 @@ public class MainFrame extends JFrame {
     JSplitPane splitPane;
     NavigatePanel navigatePanel;
     MainPanel mainPanel;
+    StatusPanel statusPanel;
 
     JDynamicButton searchButton;
     JDynamicButton checkDuplicateButton;
@@ -56,12 +57,14 @@ public class MainFrame extends JFrame {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigatePanel,
                 mainPanel);
         splitPane.setResizeWeight(0.1);
+        statusPanel = new StatusPanel();
 
         createMenubar();
         createToolbar();
         setJMenuBar(menubar);
         contentPane.add(toolbar, "North");
         contentPane.add(splitPane, "Center");
+        contentPane.add(statusPanel, "South");
         initAction();
         scan();
     }

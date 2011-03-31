@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,6 +52,7 @@ public class Picture extends JLabel {
 
         public void mouseClicked(MouseEvent e) {
             Picture picture = (Picture) e.getSource();
+            boolean needSetTags = false;
             if (!picture.isPicture && e.getClickCount() == 2) {
                 e.consume();
                 ((NavigatePanel) UIManager.getComponent(UIManager.NAVIGATE_PANEL)).selectChild(picture.getName());
@@ -64,20 +66,48 @@ public class Picture extends JLabel {
                 picture.changeSelected();
                 picture.setBorder();
             } else {
+                boolean isSelected = picture.isSelected();
                 MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
                 mainPanel.clearSelect();
-                picture.changeSelected();
-                picture.setBorder();
+                if (!isSelected) {
+                    picture.changeSelected();
+                    picture.setBorder();
+                    needSetTags = true;
+
+                }
+            }
+            MainPanel mainPanel = (MainPanel) UIManager.getComponent(UIManager.MAIN_PANEL);
+            List<Picture> pictures = mainPanel.getSelectedPictures(false);
+            ImageInfo image = Workspace.getInstance().getImage(picture.getPicture());
+            if (pictures.size() == 1) {
+                ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                        .setSelected(picture.file.getName(), image.getDisplaySize(), image.getResolution());
+            } else {
+                ((StatusPanel) UIManager.getComponent(UIManager.STATUS_PANEL))
+                        .setSelected(pictures.size() + " selected", "", "");
             }
             TagsPanel tagsPanel = (TagsPanel) UIManager.getComponent(UIManager.TAGS_PANEL);
             tagsPanel.reset();
+            if (needSetTags) {
+                if (image != null) {
+                    for (int tag : image.getTags()) {
+                        TagButton button = tagsPanel.getTagButtons().get(tag);
+                        if (button != null) {
+                            button.setSelected(true);
+                        }
+                    }
+                }
+            }
         }
     };
 
     static {
-        folderImage = new ImageIcon(ImageManager.getImageFromContainer("image_folder", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
-        errorImage = new ImageIcon(ImageManager.getImageFromContainer("image_error", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
-        pictureImage = new ImageIcon(ImageManager.getImageFromContainer("image_picture", Constants.THUMBNAILS_WIDTH, Constants.THUMBNAILS_HEIGHT));
+        folderImage = new ImageIcon(ImageManager.getImageFromContainer("image_folder", Constants.THUMBNAILS_WIDTH,
+                Constants.THUMBNAILS_HEIGHT));
+        errorImage = new ImageIcon(ImageManager.getImageFromContainer("image_error", Constants.THUMBNAILS_WIDTH,
+                Constants.THUMBNAILS_HEIGHT));
+        pictureImage = new ImageIcon(ImageManager.getImageFromContainer("image_picture", Constants.THUMBNAILS_WIDTH,
+                Constants.THUMBNAILS_HEIGHT));
     }
 
     public static Picture getPicture(File file) {
@@ -99,11 +129,11 @@ public class Picture extends JLabel {
             isPicture = true;
             try {
                 setIcon(pictureImage);
-                setToolTipText(getDescription(file));
             } catch (Exception e) {
                 logger.warn("Can't read image:" + file, e);
                 setIcon(errorImage);
             }
+            setToolTipText(getDescription(file));
         }
         init();
     }
@@ -126,9 +156,11 @@ public class Picture extends JLabel {
         ImageInfo image = Workspace.getInstance().getImage(path);
         buffer.append("<html>");
         buffer.append("Path:").append(path).append("<br>");
-        buffer.append("Size:").append(image.getSize()).append("<br>");
-        buffer.append("Date:").append(image.getDate()).append("<br>");
-        buffer.append("Rank:").append(image.getRank()).append("<br>");
+        if (image != null) {
+            buffer.append("Size:").append(image.getSize()).append("<br>");
+            buffer.append("Date:").append(image.getDate()).append("<br>");
+            buffer.append("Rank:").append(image.getRank()).append("<br>");
+        }
         buffer.append("</html>");
         return buffer.toString();
     }

@@ -7,7 +7,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 import java.io.File;
-import java.util.HashMap;
 
 public class WorkspaceConverter implements Converter {
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext context) {
@@ -34,11 +33,6 @@ public class WorkspaceConverter implements Converter {
         while (reader.hasMoreChildren()) {
             parseCollection(workspace, reader, context);
         }
-        HashMap<File, ImageInfo> imageMap = new HashMap<File, ImageInfo>();
-        for (ImageInfo image : workspace.getImageMap().values()) {
-            imageMap.put(new File(image.getAbsolutePath()), image);
-        }
-        workspace.setImageMap(imageMap);
         return workspace;
     }
 
