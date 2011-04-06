@@ -5,30 +5,25 @@ import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 
 public class ImageInfoConverter implements Converter {
+    private static Logger logger = Logger.getLogger(ImageInfoConverter.class);
+
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext context) {
         ImageInfo image = (ImageInfo) o;
-        if (image.getRank() > 0)
-            writer.addAttribute("rank", image.getRank() + "");
-        writer.addAttribute("size", image.getSize() + "");
-        if (!image.getDate().equals(ImageInfo.UNKNOWN_DATE))
-            writer.addAttribute("date", image.getDate());
-        if (!image.getCamera().equals(ImageInfo.UNKNOWN))
-            writer.addAttribute("camera", image.getCamera());
-        writer.addAttribute("path", image.getPath());
-        if (image.getCompressionBPP().equals(ImageInfo.UNKNOWN))
-            writer.addAttribute("compressionBPP", image.getCompressionBPP() + "");
-        if (!image.getExposureTime().equals(ImageInfo.UNKNOWN))
-            writer.addAttribute("exposureTime", image.getExposureTime());
-        if (!image.getAperture().equals(ImageInfo.UNKNOWN))
-            writer.addAttribute("aperture", image.getAperture());
-        if (!image.getResolution().equals(ImageInfo.UNKNOWN_RESOLUTION))
-            writer.addAttribute("resolution", image.getResolution());
-        if (image.getTags().size() > 0)
-            writer.addAttribute("tags", getTags(image.getTags()));
+        writeAttribute(writer, "path", image.getPath());
+        if (image.getRank() > 0) writeAttribute(writer, "rank", image.getRank() + "");
+        writeAttribute(writer, "size", image.getSize() + "");
+        writeValidAttribute(writer, "date", image.getDate(), ImageInfo.UNKNOWN_DATE);
+        writeValidAttribute(writer, "camera", image.getCamera(), ImageInfo.UNKNOWN);
+        writeValidAttribute(writer, "compressionBPP", image.getCompressionBPP(), ImageInfo.UNKNOWN);
+        writeValidAttribute(writer, "exposureTime", image.getExposureTime(), ImageInfo.UNKNOWN);
+        writeValidAttribute(writer, "aperture", image.getAperture(), ImageInfo.UNKNOWN);
+        writeValidAttribute(writer, "resolution", image.getResolution(), ImageInfo.UNKNOWN);
+        if (image.getTags().size() > 0) writeAttribute(writer, "tags", getTags(image.getTags()));
     }
 
     private String getTags(HashSet<Integer> tags) {
@@ -44,12 +39,12 @@ public class ImageInfoConverter implements Converter {
 
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
         ImageInfo image = new ImageInfo();
+        image.setPath(reader.getAttribute("path"));
         image.setRank(Integer.parseInt(getAttribute(reader, "rank", "0")));
         image.setSize(Long.parseLong(getAttribute(reader, "size", "0")));
         image.setDate(getAttribute(reader, "date", ImageInfo.UNKNOWN_DATE));
         image.setCamera(getAttribute(reader, "camera", ImageInfo.UNKNOWN));
         image.setCompressionBPP(getAttribute(reader, "compressionBPP", ImageInfo.UNKNOWN + ""));
-        image.setPath(reader.getAttribute("path"));
         image.setExposureTime(getAttribute(reader, "exposureTime", ImageInfo.UNKNOWN));
         image.setAperture(getAttribute(reader, "aperture", ImageInfo.UNKNOWN));
         image.setResolution(getAttribute(reader, "resolution", ImageInfo.UNKNOWN_RESOLUTION));
@@ -74,5 +69,19 @@ public class ImageInfoConverter implements Converter {
 
     public boolean canConvert(Class aClass) {
         return aClass.equals(ImageInfo.class);
+    }
+
+    protected void writeAttribute(HierarchicalStreamWriter writer, String name, String value) {
+        try {
+            writer.addAttribute(name, value);
+        } catch (Throwable e) {
+            logger.error("Can't write attribute " + name + ", with value:" + value, e);
+        }
+    }
+
+    protected void writeValidAttribute(HierarchicalStreamWriter writer, String name, String value,
+                                       String invalidValue) {
+        if (!value.equals(invalidValue))
+            writer.addAttribute(name, value);
     }
 }
